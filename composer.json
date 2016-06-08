@@ -1,0 +1,23 @@
+{
+  "name": "jotjunior/braspag-php-sdk",
+  "description": "Braspag API PHP SDK",
+  "authors": [
+    {
+      "name": "Paulo Fernandes",
+      "email": "pfernandes@braspag.com.br"
+    },
+    {
+      "name": "João G. Zanon Jr. ",
+      "email": "joao.zanon@triallo.com.br"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "autoload": {
+    "psr-0": {
+      "Braspag": "src/"
+    }
+  }
+}
