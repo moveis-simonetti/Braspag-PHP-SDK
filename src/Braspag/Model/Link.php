@@ -19,6 +19,15 @@ class Link extends AbstractModel
      */
     private $href;
 
+    public function toArray()
+    {
+        return [
+            'method' => $this->getMethod(),
+            'rel' => $this->getRel(),
+            'href' => $this->getHref()
+        ];
+    }
+
     /**
      * @return string
      */

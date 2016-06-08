@@ -10,6 +10,13 @@ class EletronicTransferPayment extends Payment
      */
     private $url;
 
+    public function toArray()
+    {
+        return [
+            'url' => $this->getUrl()
+        ];
+    }
+
     public function __construct($options = [])
     {
         parent::__construct($options);

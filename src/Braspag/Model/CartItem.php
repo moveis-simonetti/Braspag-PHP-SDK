@@ -75,6 +75,27 @@ class CartItem extends AbstractModel
      */
     private $passenger;
 
+    public function toArray()
+    {
+        return [
+            'giftCategory' => $this->getGiftCategory(),
+            'hostHedge' => $this->getHostHedge(),
+            'nonSensicalHedge' => $this->getNonSensicalHedge(),
+            'obscenitiesHedge' => $this->getObscenitiesHedge(),
+            'phoneHedge' => $this->getPhoneHedge(),
+            'name' => $this->getName(),
+            'quantity' => $this->getQuantity(),
+            'sku' => $this->getSku(),
+            'unitPrice' => $this->getUnitPrice(),
+            'risk' => $this->getRisk(),
+            'timeHedge' => $this->getTimeHedge(),
+            'type' => $this->getType(),
+            'velocityHedge' => $this->getVelocityHedge(),
+            'passenger' => $this->getPassenger()->toArray()
+
+        ];
+    }
+
     /**
      * @return string
      */

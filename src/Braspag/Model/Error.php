@@ -14,6 +14,14 @@ class Error extends AbstractModel
      */
     private $message;
 
+    public function toArray()
+    {
+        return [
+            'code' => $this->getCode(),
+            'message' => $this->getMessage(),
+        ];
+    }
+
     /**
      * @return string
      */

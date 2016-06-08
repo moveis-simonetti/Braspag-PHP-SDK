@@ -8,72 +8,91 @@ class CreditCardPayment extends Payment
     /**
      * @var double
      */
-    private $serviceTaxAmount;
+    protected $serviceTaxAmount;
 
     /**
      * @var int
      */
-    private $installments;
+    protected $installments;
+
+    /**
+     * @var string
+     */
+    protected $interest;
 
     /**
      * @var boolean
      */
-    private $interest;
+    protected $capture;
 
     /**
      * @var boolean
      */
-    private $capture;
+    protected $authenticate;
 
     /**
      * @var boolean
      */
-    private $authenticate;
+    protected $recurrent;
 
     /**
-     * @var boolean
+     * @var Card
      */
-    private $recurrent;
-
-    /**
-     * @var string
-     */
-    private $creditCard;
+    protected $creditCard;
 
     /**
      * @var string
      */
-    private $authenticationUrl;
+    protected $authenticationUrl;
 
     /**
      * @var string
      */
-    private $authorizationCode;
+    protected $authorizationCode;
 
     /**
      * @var string
      */
-    private $proofOfSale;
+    protected $proofOfSale;
 
     /**
      * @var string
      */
-    private $acquirerTransactionId;
+    protected $acquirerTransactionId;
 
     /**
      * @var string
      */
-    private $softDescriptor;
+    protected $softDescriptor;
 
     /**
      * @var string
      */
-    private $eci;
+    protected $eci;
+
+    public function toArray()
+    {
+        return [
+            'serviceTaxAmount' => $this->getServiceTaxAmount(),
+            'installments' => $this->getInstallments(),
+            'interest' => $this->getInterest(),
+            'capture' => $this->isCapture(),
+            'authenticate' => $this->isAuthenticate(),
+            'recurrent' => $this->isRecurrent(),
+            'creditCard' => $this->getCreditCard()->toArray(),
+            'authenticationUrl' => $this->getAuthenticationUrl(),
+            'authorizationCode' => $this->getAuthorizationCode(),
+            'proofOfSale' => $this->getProofOfSale(),
+            'acquirerTransactionId' => $this->getAcquirerTransactionId(),
+            'softDescriptor' => $this->getSoftDescriptor(),
+            'eci' => $this->getEci()
+        ];
+    }
 
     /**
      * @var FraudAnalysis
      */
-    private $fraudAnalysis;
+    protected $fraudAnalysis;
 
     public function __construct($options = [])
     {
@@ -118,9 +137,9 @@ class CreditCardPayment extends Payment
     }
 
     /**
-     * @return boolean
+     * @return string
      */
-    public function isInterest()
+    public function getInterest()
     {
         return $this->interest;
     }
@@ -204,6 +223,12 @@ class CreditCardPayment extends Payment
     public function setCreditCard($creditCard)
     {
         $this->creditCard = $creditCard;
+
+        if (\is_object($creditCard) && !($creditCard instanceof Card)) {
+            throw new \InvalidArgumentException('Item must be a creditCard object.');
+        } else if (\is_array($creditCard)) {
+            $this->creditCard = new Card($creditCard);
+        }
         return $this;
     }
 

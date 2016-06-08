@@ -33,15 +33,16 @@ class ApiServices
     function __construct($options = [])
     {
 
-        $this->config = include_once('../config/braspag.config.php');
+        $this->config = include __DIR__ . '/../config/braspag.config.php';
 
         if (\is_array($options)) {
-            $this->options = \array_merge_recursive($options, $this->config);
+            $this->options = \array_merge_recursive($this->config, $options);
         }
 
         $this->headers = array(
             'MerchantId' => $this->config['merchantId'],
-            'MerchantKey' => $this->config['merchantKey']
+            'MerchantKey' => $this->config['merchantKey'],
+            'Content-Type' => 'application/json;charset=UTF-8'
         );
     }
 
@@ -52,8 +53,10 @@ class ApiServices
      */
     public function createSale(Sale $sale)
     {
+        $arrSale = $sale->toArray();
+
         $response = $this->http()->request('POST', $this->config['apiUri'] . '/sales', [
-            'body' => (array)$sale,
+            'body' => \json_encode($this->capitalizeRequestData($arrSale)),
             'headers' => $this->headers
         ]);
 
@@ -172,4 +175,19 @@ class ApiServices
         }
         return $this->http;
     }
+
+    static public function capitalizeRequestData($data)
+    {
+        foreach ($data as $key => &$value) {
+            if (\is_array($value)) {
+                $value = self::capitalizeRequestData($value);
+            }
+            $data[\ucfirst($key)] = $value;
+            if (ctype_lower($key{0})) {
+                unset($data[$key]);
+            }
+        }
+        return $data;
+    }
+
 }

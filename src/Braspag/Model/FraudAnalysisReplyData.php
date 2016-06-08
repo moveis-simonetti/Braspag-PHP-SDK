@@ -60,6 +60,24 @@ class FraudAnalysisReplyData extends AbstractModel
      */
     public $casePriority;
 
+    public function toArray()
+    {
+        return [
+            'addressInfoCode' => $this->getAddressInfoCode(),
+            'factorCode' => $this->getFactorCode(),
+            'score' => $this->getScore(),
+            'binCountry' => $this->getBinCountry(),
+            'cardIssuer' => $this->getCardIssuer(),
+            'cardScheme' => $this->getCardScheme(),
+            'hostServerity' => $this->getHostSeverity(),
+            'internetInfoCode' => $this->getInternetInfoCode(),
+            'ipRoutingMethod' => $this->getIpRoutingMethod(),
+            'scoreModelUsed' => $this->getScoreModelUsed(),
+            'casePriority' => $this->getCasePriority()
+
+        ];
+    }
+
     /**
      * @return int
      */
@@ -257,6 +275,6 @@ class FraudAnalysisReplyData extends AbstractModel
         $this->casePriority = $casePriority;
         return $this;
     }
-    
+
 
 }

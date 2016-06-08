@@ -46,6 +46,24 @@ class Card extends AbstractModel
     private $brand;
 
     /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'cardNumber' => $this->getCardNumber(),
+            'holder' => $this->getHolder(),
+            'expirationDate' => $this->getExpirationDate(),
+            'securityCode' => $this->getSecurityCode(),
+            'saveCard' => $this->isSaveCard(),
+            'cardToken' => $this->getCardToken(),
+            'cardAlias' => $this->getCardAlias(),
+            'brand' => $this->getBrand()
+
+        ];
+    }
+
+    /**
      * @return string
      */
     public function getCardNumber()

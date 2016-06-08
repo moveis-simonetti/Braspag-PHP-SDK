@@ -15,6 +15,14 @@ class CaptureRequest extends AbstractModel
      */
     private $serviceTaxAmount;
 
+    public function toArray()
+    {
+        return [
+            'amount' => $this->getAmount(),
+            'serviceTaxAmount' => $this->getServiceTaxAmount()
+        ];
+    }
+
     /**
      * @return float
      */

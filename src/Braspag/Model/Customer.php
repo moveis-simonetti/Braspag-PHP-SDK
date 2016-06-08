@@ -35,6 +35,18 @@ class Customer extends AbstractModel
      */
     private $address;
 
+    public function toArray()
+    {
+        return [
+            'name' => $this->getName(),
+            'identity' => $this->getIdentity(),
+            'identityType' => $this->getIdentityType(),
+            'email' => $this->getEmail(),
+            'birthDate' => ($this->getBirthDate()) ? $this->getBirthDate()->format('Y-m-d') : null,
+            'address' => $this->getAddress()->toArray()
+        ];
+    }
+
     /**
      * @return string
      */

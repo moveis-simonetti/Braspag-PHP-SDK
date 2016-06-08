@@ -137,6 +137,37 @@ class Payment extends AbstractModel
      */
     protected $config;
 
+    public function toArray()
+    {
+        return [
+            'type' => $this->getType(),
+            'paymentId' => $this->getPaymentId(),
+            'amount' => $this->getAmount(),
+            'capturedAmount' => $this->getCapturedAmount(),
+            'voidedAmount' => $this->getVoidedAmount(),
+            'receivedDate' => ($this->getReceivedDate()) ? $this->getReceivedDate()->format('Y-m-d') : null,
+            'voidedDate' => ($this->getVoidedDate()) ? $this->getVoidedDate()->format('Y-m-d') : null,
+            'capturedDate' => ($this->getCapturedDate()) ? $this->getCapturedDate()->format('Y-m-d') : null,
+            'currency' => $this->getCurrency(),
+            'country' => $this->getCountry(),
+            'provider' => $this->getProvider(),
+            'credentialks' => $this->getCredentials(),
+            'extraData' => $this->getExtraData(),
+            'returnUrl' => $this->getReturnUrl(),
+            'reasonCode' => $this->getReasonCode(),
+            'reasonMessage' => $this->getReasonMessage(),
+            'providerReturnCode' => $this->getProviderReturnCode(),
+            'providerReturnMessage' => $this->getProviderReturnMessage(),
+            'status' => $this->getStatus(),
+            'lnks' => $this->getLinks(true),
+            'recurrentPayment' => $this->isRecurrentPayment(),
+            'authenticationUrl' => $this->getAuthenticationUrl(),
+            'authorizationCode' => $this->getAuthorizationCode(),
+            'proofOfSale' => $this->getProofOfSale(),
+            'acquirerTransactionId' => $this->getAcquirerTransactionId()
+        ];
+    }
+
     /**
      * @return string
      */
@@ -482,8 +513,15 @@ class Payment extends AbstractModel
     /**
      * @return array
      */
-    public function getLinks()
+    public function getLinks($asArray = false)
     {
+        if ($asArray) {
+            $links = [];
+            foreach ($this->links as $link) {
+                \array_push($links, $link->toArray());
+            }
+            return $links;
+        }
         return $this->links;
     }
 

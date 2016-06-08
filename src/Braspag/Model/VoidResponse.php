@@ -25,6 +25,16 @@ class VoidResponse extends AbstractModel
      */
     public $links;
 
+    public function toArray()
+    {
+        return [
+            'status' => $this->getStatus(),
+            'reasonCode' => $this->getReasonCode(),
+            'reasonMessage' => $this->getReasonMessage(),
+            'links' => $this->getLinks(true)
+        ];
+    }
+
     /**
      * @return string
      */
@@ -82,8 +92,15 @@ class VoidResponse extends AbstractModel
     /**
      * @return array
      */
-    public function getLinks()
+    public function getLinks($asArray = false)
     {
+        if ($asArray) {
+            $links = [];
+            foreach ($this->links as $link) {
+                \array_push($links, $link->toArray());
+            }
+            return $links;
+        }
         return $this->links;
     }
 
