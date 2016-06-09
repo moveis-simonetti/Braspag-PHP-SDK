@@ -9,7 +9,7 @@ class AbstractModel
 
     public function __construct($options = [])
     {
-        $config = include __DIR__ . '/../../config/braspag.config.php';
+        $config = include __DIR__ . '/../../../config/braspag.config.php';
 
         try {
             if (is_array($options) && is_array($config))

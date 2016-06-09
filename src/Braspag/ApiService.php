@@ -34,7 +34,7 @@ class ApiService
     function __construct($options = [])
     {
 
-        $this->config = include __DIR__ . '/../config/braspag.config.php';
+        $this->config = include __DIR__ . '/../../config/braspag.config.php';
 
         if (\is_array($options)) {
             $this->options = \array_merge_recursive($this->config, $options);
