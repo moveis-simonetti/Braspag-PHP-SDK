@@ -18,7 +18,7 @@ Adicione "jotjunior/braspag-php-sdk": "dev-master" no seu composer.json.
 ```php
 <?php
 
-use Braspag\ApiServices;
+use Braspag\ApiService;
 use Braspag\Model\Sale;
 
 $sale = [
@@ -51,7 +51,7 @@ $result = $service->createSale($sale);
 ```php
 <?php
 
-use Braspag\ApiServices;
+use Braspag\ApiService;
 
 $sale = [
     'merchantOrderId' => 2016060900,
@@ -114,8 +114,7 @@ $sale = [
 ];
 
 $sale = new Braspag\Model\Sale($sale);
-$service = new ApiServices();
-$result = $service->createSale($sale);
 
-print_r($result);
+$service = new ApiService();
+$result = $service->createSale($sale);
 ```
