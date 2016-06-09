@@ -42,7 +42,7 @@ $sale = [
 ];
 $sale = new Sale($sale);
 
-$service = new ApiServices();
+$service = new ApiService();
 $result = $service->createSale($sale);
 ```
 

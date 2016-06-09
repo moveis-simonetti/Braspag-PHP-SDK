@@ -13,7 +13,7 @@ use Braspag\Model\CaptureRequest;
 use Braspag\Lib\Hydrator;
 use GuzzleHttp\Client as HttpClient;
 
-class ApiServices
+class ApiService
 {
 
     /**
