@@ -8,8 +8,26 @@ Este projeto foi criado a partir de um fork do [projeto original](https://github
 porém como as mudanças foram muito significativas, resolvi criar um 
 novo projeto. 
 
-## Configuração
+## Instalação
 Adicione "jotjunior/braspag-php-sdk": "dev-master" no seu composer.json.
+
+## Configuração
+Por padrão, o arquivo de configuração da aplicação fica no diretório config, 
+na raiz do repositório. 
+
+Para reescrever qualuqer atributo da configuraçõa, basta injetar, como um Array, 
+no momento de instanciar o objeto.
+
+Exemplo:
+```php
+<?php
+$service = new ApiService([
+    'merchantId' => '00000000-0000-0000-0000-000000000000',
+    'merchantKey' => '0000000000000000000000000000000000000000',
+    'authenticate' => true
+]);
+
+```
 
 ## Exemplos
 
