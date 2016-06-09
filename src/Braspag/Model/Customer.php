@@ -48,8 +48,8 @@ class Customer extends AbstractModel
             'identityType' => $this->getIdentityType(),
             'email' => $this->getEmail(),
             'birthDate' => ($this->getBirthDate()) ? $this->getBirthDate()->format('Y-m-d') : null,
-            'address' => $this->getAddress()->toArray(),
-            'deliveryAddress' => $this->getDeliveryAddress()->toArray()
+            'address' => ($this->getAddress()) ? $this->getAddress()->toArray() : null,
+            'deliveryAddress' => ($this->getDeliveryAddress()) ? $this->getDeliveryAddress()->toArray() : null
         ];
     }
 

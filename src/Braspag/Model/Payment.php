@@ -2,8 +2,6 @@
 
 namespace Braspag\Model;
 
-use Braspag\Lib\Hydrator;
-
 class Payment extends AbstractModel
 {
 
@@ -68,9 +66,9 @@ class Payment extends AbstractModel
     protected $credentials;
 
     /**
-     * @var string
+     * @var ExtraData
      */
-    protected $extraData;
+    protected $extraDataCollection;
 
     /**
      * @var string
@@ -152,7 +150,7 @@ class Payment extends AbstractModel
             'country' => $this->getCountry(),
             'provider' => $this->getProvider(),
             'credentials' => $this->getCredentials(),
-            'extraData' => $this->getExtraData(),
+            'extraDataCollection' => $this->getExtraDataCollection(true),
             'returnUrl' => $this->getReturnUrl(),
             'reasonCode' => $this->getReasonCode(),
             'reasonMessage' => $this->getReasonMessage(),
@@ -164,7 +162,7 @@ class Payment extends AbstractModel
             'authenticationUrl' => $this->getAuthenticationUrl(),
             'authorizationCode' => $this->getAuthorizationCode(),
             'proofOfSale' => $this->getProofOfSale(),
-            'acquirerTransactionId' => $this->getAcquirerTransactionId()
+            'acquirerTransactionId' => $this->getAcquirerTransactionId(),
         ];
     }
 
@@ -381,24 +379,6 @@ class Payment extends AbstractModel
     public function setCredentials($credentials)
     {
         $this->credentials = $credentials;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExtraData()
-    {
-        return $this->extraData;
-    }
-
-    /**
-     * @param string $extraData
-     * @return Payment
-     */
-    public function setExtraData($extraData)
-    {
-        $this->extraData = $extraData;
         return $this;
     }
 
@@ -640,6 +620,41 @@ class Payment extends AbstractModel
     public function setAcquirerTransactionId($acquirerTransactionId)
     {
         $this->acquirerTransactionId = $acquirerTransactionId;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraDataCollection($asArray = false)
+    {
+        if ($asArray && \is_array($this->extraDataCollection)) {
+            $extraData = [];
+            foreach ($this->extraDataCollection as $link) {
+                \array_push($extraData, $link->toArray());
+            }
+            return $extraData;
+        }
+        return $this->extraDataCollection;
+    }
+
+    /**
+     * @param array $extraData
+     * @return Payment
+     */
+    public function setExtraDataCollection($extraData)
+    {
+        $extraDataCollection = [];
+
+        if (!\is_array($extraData)) {
+            return [];
+        }
+
+        foreach ($extraData as $data) {
+            \array_push($extraDataCollection, new ExtraData($data));
+        }
+
+        $this->extraDataCollection = $extraDataCollection;
         return $this;
     }
 

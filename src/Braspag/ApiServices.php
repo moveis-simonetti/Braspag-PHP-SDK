@@ -10,6 +10,7 @@ use Braspag\Model\BoletoPayment;
 use Braspag\Model\DebitCardPayment;
 use Braspag\Model\EletronicTransferPayment;
 use Braspag\Model\CaptureRequest;
+use Braspag\Lib\Hydrator;
 use GuzzleHttp\Client as HttpClient;
 
 class ApiServices
@@ -64,7 +65,8 @@ class ApiServices
             echo $e->getMessage();
         }
 
-        $result = new Sale(\json_decode($response->getBody()->getContents(), true));
+        $result = \json_decode($response->getBody()->getContents(), true);
+        Hydrator::hydrate($sale, $result);
 
         if ($response->getStatusCode() === HttpStatus::Created) {
             return $sale;
@@ -72,7 +74,7 @@ class ApiServices
             return BraspagUtils::getBadRequestErros($result);
         }
 
-        return $response->code;
+        return $result;
     }
 
     /**
