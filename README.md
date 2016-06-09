@@ -13,7 +13,7 @@ Adicione "jotjunior/braspag-php-sdk": "dev-master" no seu composer.json.
 
 ## Exemplos
 
-# Venda Simplificada
+### Venda Simplificada
 
 ```php
 <?php
@@ -46,7 +46,7 @@ $service = new ApiService();
 $result = $service->createSale($sale);
 ```
 
-# Venda Completa
+### Venda Completa
 
 ```php
 <?php
