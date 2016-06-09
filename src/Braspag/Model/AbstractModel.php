@@ -12,13 +12,13 @@ class AbstractModel
         $config = include __DIR__ . '/../../../config/braspag.config.php';
 
         try {
-            if (is_array($options) && is_array($config))
-                $options = \array_merge($config, $options);
+            if (is_array($options))
+                $config = \array_merge($config, $options);
         } catch (\Exception $e) {
             echo $e->getFile();
         }
 
-        Hydrator::hydrate($this, $options);
+        Hydrator::hydrate($this, $config);
     }
 
     public function parseLink($data)

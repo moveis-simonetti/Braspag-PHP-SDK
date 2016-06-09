@@ -37,7 +37,7 @@ class ApiService
         $this->config = include __DIR__ . '/../../config/braspag.config.php';
 
         if (\is_array($options)) {
-            $this->options = \array_merge_recursive($this->config, $options);
+            $this->config = \array_merge_recursive($this->config, $options);
         }
 
         $this->headers = array(
