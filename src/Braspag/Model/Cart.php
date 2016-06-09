@@ -20,6 +20,15 @@ class Cart extends AbstractModel
      */
     private $items;
 
+    public function toArray()
+    {
+        return [
+            'gift' => $this->isGift(),
+            'returnsAccepted' => $this->isReturnsAccepted(),
+            'items' => $this->getItems()
+        ];
+    }
+
     /**
      * @return boolean
      */
@@ -59,8 +68,15 @@ class Cart extends AbstractModel
     /**
      * @return array
      */
-    public function getItems()
+    public function getItems($asArray = false)
     {
+        if ($asArray) {
+            $items = [];
+            foreach ($this->items as $item) {
+                \array_push($items, $item->toArray());
+            }
+            return $items;
+        }
         return $this->items;
     }
 
@@ -78,7 +94,7 @@ class Cart extends AbstractModel
             } else if (!\is_object($item)) {
                 $item = new CartItem($item);
             }
-            
+
             \array_push($this->items, $item);
         }
         return $this;

@@ -20,6 +20,15 @@ class Sale extends AbstractModel
      */
     private $payment;
 
+    public function toArray()
+    {
+        return [
+            'merchantOrderId' => $this->getMerchantOrderId(),
+            'customer' => $this->getCustomer()->toArray(),
+            'payment' => $this->getPayment()->toArray(),
+        ];
+    }
+
     /**
      * @return string
      */
@@ -81,7 +90,8 @@ class Sale extends AbstractModel
         if (\is_object($payment) && !($payment instanceof Payment)) {
             throw new \InvalidArgumentException('Item must be a Payment object.');
         } else if (\is_array($payment)) {
-            $this->payment = new Payment($payment);
+            $class = __NAMESPACE__ . '\\' . array_change_key_case($payment, CASE_LOWER)['type'] . 'Payment';
+            $this->payment = new $class($payment);
         }
         return $this;
     }

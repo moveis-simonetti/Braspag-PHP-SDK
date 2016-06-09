@@ -6,14 +6,22 @@ use Braspag\Lib\Hydrator;
 
 class AbstractModel
 {
+
     public function __construct($options = [])
     {
-        $config = include_once('../../config/braspag.config.php');
-        $options = \array_merge_recursive($config, $options);
+        $config = include __DIR__ . '/../../config/braspag.config.php';
+
+        try {
+            if (is_array($options) && is_array($config))
+                $options = \array_merge($config, $options);
+        } catch (\Exception $e) {
+            echo $e->getFile();
+        }
+
         Hydrator::hydrate($this, $options);
     }
 
-    private function parseLink($data)
+    public function parseLink($data)
     {
         if (!$data) {
             return null;
@@ -22,7 +30,7 @@ class AbstractModel
     }
 
 
-    protected function parseLinks($source)
+    public function parseLinks($source)
     {
         $linkCollection = array();
 

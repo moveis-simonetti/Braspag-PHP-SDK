@@ -45,11 +45,25 @@ class FraudAnalysis extends AbstractModel
      */
     public $cart;
 
-
     /**
      * @var FraudAnalysisReplyData
      */
     public $replyData;
+
+    public function toArray()
+    {
+        return [
+            'sequence' => $this->getSequence(),
+            'sequenceCriteria' => $this->getSequenceCriteria(),
+            'fingerPrintId' => $this->getFingerPrintId(),
+            'captureOnLowRisk' => $this->isCaptureOnLowRisk(),
+            'voidOnHighRisk' => $this->isVoidOnHighRisk(),
+            'status' => $this->getStatus(),
+            'browser' => $this->getBrowser()->toArray(),
+            'cart' => $this->getCart()->toArray(),
+            'replyData' => $this->getReplyData()->toArray(),
+        ];
+    }
 
     /**
      * @return string

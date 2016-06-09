@@ -6,14 +6,22 @@ class CaptureRequest extends AbstractModel
 {
 
     /**
-     * @var double
+     * @var int
      */
     private $amount;
 
     /**
-     * @var double
+     * @var int
      */
     private $serviceTaxAmount;
+
+    public function toArray()
+    {
+        return [
+            'amount' => $this->getAmount(),
+            'serviceTaxAmount' => $this->getServiceTaxAmount()
+        ];
+    }
 
     /**
      * @return float
@@ -24,17 +32,17 @@ class CaptureRequest extends AbstractModel
     }
 
     /**
-     * @param float $amount
+     * @param int $amount
      * @return CaptureRequest
      */
     public function setAmount($amount)
     {
-        $this->amount = $amount;
+        $this->amount = (int)\number_format($amount, 2, '', '');
         return $this;
     }
 
     /**
-     * @return float
+     * @return int
      */
     public function getServiceTaxAmount()
     {
@@ -47,7 +55,7 @@ class CaptureRequest extends AbstractModel
      */
     public function setServiceTaxAmount($serviceTaxAmount)
     {
-        $this->serviceTaxAmount = $serviceTaxAmount;
+        $this->serviceTaxAmount = (int)\number_format($serviceTaxAmount, 2, '', '');
         return $this;
     }
 

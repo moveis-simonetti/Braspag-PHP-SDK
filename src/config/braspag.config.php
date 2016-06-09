@@ -6,11 +6,11 @@ return [
     'currency' => 'BRL',
     'country' => 'BRA',
     'interest' => 'ByMerchant',
-    'capture' => false,
+    'capture' => true,
     'authenticate' => false,
     'sequence' => 'AuthorizeFirst',
     'sequenceCriteria' => 'OnSuccess',
-    'merchantId' => '00000000-0000-0000-0000-000000000000',
-    'merchantKey' => '0000000000000000000000000000000000000000',
+    'merchantId' => '5f0776bf-0600-4f14-bc51-fe28e4d9eebf',
+    'merchantKey' => 'NEIJRYCSVYLNGAPYMZPJFYEPRUSARXOHBESBURMH',
 ];
 

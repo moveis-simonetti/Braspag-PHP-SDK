@@ -8,72 +8,67 @@ class CreditCardPayment extends Payment
     /**
      * @var double
      */
-    private $serviceTaxAmount;
+    protected $serviceTaxAmount;
 
     /**
      * @var int
      */
-    private $installments;
+    protected $installments;
+
+    /**
+     * @var string
+     */
+    protected $interest;
 
     /**
      * @var boolean
      */
-    private $interest;
+    protected $capture;
 
     /**
      * @var boolean
      */
-    private $capture;
+    protected $authenticate;
 
     /**
      * @var boolean
      */
-    private $authenticate;
+    protected $recurrent;
 
     /**
-     * @var boolean
+     * @var Card
      */
-    private $recurrent;
-
-    /**
-     * @var string
-     */
-    private $creditCard;
+    protected $creditCard;
 
     /**
      * @var string
      */
-    private $authenticationUrl;
+    protected $softDescriptor;
 
     /**
      * @var string
      */
-    private $authorizationCode;
+    protected $eci;
 
-    /**
-     * @var string
-     */
-    private $proofOfSale;
-
-    /**
-     * @var string
-     */
-    private $acquirerTransactionId;
-
-    /**
-     * @var string
-     */
-    private $softDescriptor;
-
-    /**
-     * @var string
-     */
-    private $eci;
+    public function toArray()
+    {
+        return \array_merge_recursive(parent::toArray(), [
+            'serviceTaxAmount' => $this->getServiceTaxAmount(),
+            'installments' => $this->getInstallments(),
+            'interest' => $this->getInterest(),
+            'capture' => $this->isCapture(),
+            'authenticate' => $this->isAuthenticate(),
+            'recurrent' => $this->isRecurrent(),
+            'creditCard' => $this->getCreditCard()->toArray(),
+            'softDescriptor' => $this->getSoftDescriptor(),
+            'eci' => $this->getEci()
+        ]);
+    }
 
     /**
      * @var FraudAnalysis
      */
-    private $fraudAnalysis;
+    protected $fraudAnalysis;
 
     public function __construct($options = [])
     {
@@ -118,9 +113,9 @@ class CreditCardPayment extends Payment
     }
 
     /**
-     * @return boolean
+     * @return string
      */
-    public function isInterest()
+    public function getInterest()
     {
         return $this->interest;
     }
@@ -204,78 +199,12 @@ class CreditCardPayment extends Payment
     public function setCreditCard($creditCard)
     {
         $this->creditCard = $creditCard;
-        return $this;
-    }
 
-    /**
-     * @return string
-     */
-    public function getAuthenticationUrl()
-    {
-        return $this->authenticationUrl;
-    }
-
-    /**
-     * @param string $authenticationUrl
-     * @return CreditCardPayment
-     */
-    public function setAuthenticationUrl($authenticationUrl)
-    {
-        $this->authenticationUrl = $authenticationUrl;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthorizationCode()
-    {
-        return $this->authorizationCode;
-    }
-
-    /**
-     * @param string $authorizationCode
-     * @return CreditCardPayment
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProofOfSale()
-    {
-        return $this->proofOfSale;
-    }
-
-    /**
-     * @param string $proofOfSale
-     * @return CreditCardPayment
-     */
-    public function setProofOfSale($proofOfSale)
-    {
-        $this->proofOfSale = $proofOfSale;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAcquirerTransactionId()
-    {
-        return $this->acquirerTransactionId;
-    }
-
-    /**
-     * @param string $acquirerTransactionId
-     * @return CreditCardPayment
-     */
-    public function setAcquirerTransactionId($acquirerTransactionId)
-    {
-        $this->acquirerTransactionId = $acquirerTransactionId;
+        if (\is_object($creditCard) && !($creditCard instanceof Card)) {
+            throw new \InvalidArgumentException('Item must be a creditCard object.');
+        } else if (\is_array($creditCard)) {
+            $this->creditCard = new Card($creditCard);
+        }
         return $this;
     }
 

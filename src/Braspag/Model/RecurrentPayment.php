@@ -50,6 +50,20 @@ class RecurrentPayment extends AbstractModel
      */
     public $authorizeNow;
 
+    public function toArray()
+    {
+        return [
+            'recurrentPaymentId' => $this->getRecurrentPaymentId(),
+            'reasonCode' => $this->getReasonCode(),
+            'reasonMessage' => $this->getReasonMessage(),
+            'nextRecurrency' => ($this->getNextRecurrency()) ? $this->getNextRecurrency()->format('Y-m-d') : null,
+            'startDate' => ($this->getStartDate()) ? $this->getStartDate()->format('Y-m-d') : null,
+            'endDate' => ($this->getEndDate()) ? $this->getEndDate()->format('Y-m-d') : null,
+            'interval' => $this->getInterval(),
+            'link' => $this->getLink()
+        ];
+    }
+
     /**
      * @return string
      */

@@ -45,6 +45,21 @@ class Address extends AbstractModel
      */
     private $district;
 
+    public function toArray()
+    {
+        return [
+            'street' => $this->getStreet(),
+            'number' => $this->getNumber(),
+            'complement' => $this->getComplement(),
+            'zipCode' => $this->getZipCode(),
+            'city' => $this->getCity(),
+            'state' => $this->getState(),
+            'country' => $this->getCountry(),
+            'district' => $this->getDistrict()
+        ];
+    }
+
+
     /**
      * @return string
      */
@@ -188,6 +203,5 @@ class Address extends AbstractModel
         $this->district = $district;
         return $this;
     }
-
 
 }

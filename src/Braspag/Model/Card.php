@@ -21,7 +21,7 @@ class Card extends AbstractModel
     private $expirationDate;
 
     /**
-     * @var int
+     * @var string
      */
     private $securityCode;
 
@@ -44,6 +44,24 @@ class Card extends AbstractModel
      * @var string
      */
     private $brand;
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'cardNumber' => $this->getCardNumber(),
+            'holder' => $this->getHolder(),
+            'expirationDate' => $this->getExpirationDate(),
+            'securityCode' => $this->getSecurityCode(),
+            'saveCard' => $this->isSaveCard(),
+            'cardToken' => $this->getCardToken(),
+            'cardAlias' => $this->getCardAlias(),
+            'brand' => $this->getBrand()
+
+        ];
+    }
 
     /**
      * @return string

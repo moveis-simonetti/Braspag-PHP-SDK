@@ -30,6 +30,17 @@ class Browser extends AbstractModel
      */
     public $type;
 
+    public function toArray()
+    {
+        return [
+            'cookieAccepted' => $this->isCookiesAccepted(),
+            'email' => $this->getEmail(),
+            'hostName' => $this->getHostName(),
+            'ipAddress' => $this->getIpAddress(),
+            'type' => $this->getType()
+        ];
+    }
+
     /**
      * @return boolean
      */

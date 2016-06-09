@@ -10,6 +10,7 @@ use Braspag\Model\BoletoPayment;
 use Braspag\Model\DebitCardPayment;
 use Braspag\Model\EletronicTransferPayment;
 use Braspag\Model\CaptureRequest;
+use Braspag\Lib\Hydrator;
 use GuzzleHttp\Client as HttpClient;
 
 class ApiServices
@@ -33,50 +34,47 @@ class ApiServices
     function __construct($options = [])
     {
 
-        $this->config = include_once('../config/braspag.config.php');
+        $this->config = include __DIR__ . '/../config/braspag.config.php';
 
         if (\is_array($options)) {
-            $this->options = \array_merge_recursive($options, $this->config);
+            $this->options = \array_merge_recursive($this->config, $options);
         }
 
         $this->headers = array(
             'MerchantId' => $this->config['merchantId'],
-            'MerchantKey' => $this->config['merchantKey']
+            'MerchantKey' => $this->config['merchantKey'],
+            'Content-Type' => 'application/json;charset=UTF-8'
         );
     }
 
     /**
      * @param Sale $sale
-     * @return array|Sale
+     * @return Sale
      * @throws \Exception
      */
     public function createSale(Sale $sale)
     {
-        $response = $this->http()->request('POST', $this->config['apiUri'] . '/sales', [
-            'body' => (array)$sale,
-            'headers' => $this->headers
-        ]);
+        $arrSale = $this->capitalizeRequestData($sale->toArray());
 
-        $result = $response->getBody()->getMetadata();
+        try {
+            $response = $this->http()->request('POST', $this->config['apiUri'] . '/sales/', [
+                'body' => \json_encode($arrSale),
+                'headers' => $this->headers
+            ]);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        $result = \json_decode($response->getBody()->getContents(), true);
+        Hydrator::hydrate($sale, $result);
 
         if ($response->getStatusCode() === HttpStatus::Created) {
-
-            try {
-                $payment = new ${$result['type'] . 'Payment'}($result);
-            } catch (\Exception $e) {
-                throw $e;
-            }
-
-            if (isset($payment)) {
-                $sale->setPayment($payment);
-            }
-
             return $sale;
-        } elseif ($response->code === HttpStatus::BadRequest) {
+        } elseif ($response->getStatusCode() === HttpStatus::BadRequest) {
             return BraspagUtils::getBadRequestErros($result);
         }
 
-        return $response->code;
+        return $result;
     }
 
     /**
@@ -91,7 +89,7 @@ class ApiServices
         $uri = $this->config['apiUri'] . \sprintf('/sales/%s/capture', $paymentId);
 
         if ($captureRequest) {
-            $uri .= sprintf('?amount=%f&serviceTaxAmount=%f', (float)$captureRequest->getAmount(), (float)$captureRequest->getServiceTaxAmount());
+            $uri .= '?' . http_build_url($captureRequest->toArray());
         }
 
         $response = $this->http()->request('PUT', $uri, [
@@ -103,7 +101,7 @@ class ApiServices
         if ($response->getStatusCode() === HttpStatus::Ok) {
             $captureResponse = new CaptureResponse($result);
             return $captureResponse;
-        } elseif ($response->code == BraspagHttpStatus::BadRequest) {
+        } elseif ($response->getStatusCode() === BraspagHttpStatus::BadRequest) {
             return BraspagUtils::getBadRequestErros($result);
         }
         return $response->code;
@@ -172,4 +170,19 @@ class ApiServices
         }
         return $this->http;
     }
+
+    static protected function capitalizeRequestData($data)
+    {
+        foreach ($data as $key => &$value) {
+            if (\is_array($value)) {
+                $value = self::capitalizeRequestData($value);
+            }
+            $data[\ucfirst($key)] = $value;
+            if (ctype_lower($key{0})) {
+                unset($data[$key]);
+            }
+        }
+        return $data;
+    }
+
 }

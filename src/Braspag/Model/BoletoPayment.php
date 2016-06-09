@@ -54,6 +54,25 @@ class BoletoPayment extends Payment
      */
     private $url;
 
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'address' => $this->getAddress()->toArray(),
+            'assignor' => $this->getAssignor(),
+            'barCodeNumber' => $this->getBarCodeNumber(),
+            'boletoNumber' => $this->getBoletoNumber(),
+            'demonstrative' => $this->getDemonstrative(),
+            'digitableLine' => $this->getDigitableLine(),
+            'expirationDate' => $this->getExpirationDate(),
+            'identification' => $this->getIdentification(),
+            'instructions' => $this->getInstructions(),
+            'url' => $this->getUrl()
+        ];
+    }
+
     public function __construct($options = [])
     {
         parent::__construct($options);
@@ -75,6 +94,12 @@ class BoletoPayment extends Payment
     public function setAddress($address)
     {
         $this->address = $address;
+
+        if (\is_object($address) && !($address instanceof Address)) {
+            throw new \InvalidArgumentException('Item must be a Address object.');
+        } else if (\is_array($address)) {
+            $this->address = new Address($address);
+        }
         return $this;
     }
 

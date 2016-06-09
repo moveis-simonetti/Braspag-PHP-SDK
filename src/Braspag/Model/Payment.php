@@ -2,8 +2,6 @@
 
 namespace Braspag\Model;
 
-use Braspag\Lib\Hydrator;
-
 class Payment extends AbstractModel
 {
 
@@ -68,9 +66,9 @@ class Payment extends AbstractModel
     protected $credentials;
 
     /**
-     * @var string
+     * @var ExtraData
      */
-    protected $extraData;
+    protected $extraDataCollection;
 
     /**
      * @var string
@@ -136,6 +134,37 @@ class Payment extends AbstractModel
      * @var array
      */
     protected $config;
+
+    public function toArray()
+    {
+        return [
+            'type' => $this->getType(),
+            'paymentId' => $this->getPaymentId(),
+            'amount' => $this->getAmount(),
+            'capturedAmount' => $this->getCapturedAmount(),
+            'voidedAmount' => $this->getVoidedAmount(),
+            'receivedDate' => ($this->getReceivedDate()) ? $this->getReceivedDate()->format('Y-m-d') : null,
+            'voidedDate' => ($this->getVoidedDate()) ? $this->getVoidedDate()->format('Y-m-d') : null,
+            'capturedDate' => ($this->getCapturedDate()) ? $this->getCapturedDate()->format('Y-m-d') : null,
+            'currency' => $this->getCurrency(),
+            'country' => $this->getCountry(),
+            'provider' => $this->getProvider(),
+            'credentials' => $this->getCredentials(),
+            'extraDataCollection' => $this->getExtraDataCollection(true),
+            'returnUrl' => $this->getReturnUrl(),
+            'reasonCode' => $this->getReasonCode(),
+            'reasonMessage' => $this->getReasonMessage(),
+            'providerReturnCode' => $this->getProviderReturnCode(),
+            'providerReturnMessage' => $this->getProviderReturnMessage(),
+            'status' => $this->getStatus(),
+            'links' => $this->getLinks(true),
+            'recurrentPayment' => $this->isRecurrentPayment(),
+            'authenticationUrl' => $this->getAuthenticationUrl(),
+            'authorizationCode' => $this->getAuthorizationCode(),
+            'proofOfSale' => $this->getProofOfSale(),
+            'acquirerTransactionId' => $this->getAcquirerTransactionId(),
+        ];
+    }
 
     /**
      * @return string
@@ -356,24 +385,6 @@ class Payment extends AbstractModel
     /**
      * @return string
      */
-    public function getExtraData()
-    {
-        return $this->extraData;
-    }
-
-    /**
-     * @param string $extraData
-     * @return Payment
-     */
-    public function setExtraData($extraData)
-    {
-        $this->extraData = $extraData;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getReturnUrl()
     {
         return $this->returnUrl;
@@ -482,8 +493,15 @@ class Payment extends AbstractModel
     /**
      * @return array
      */
-    public function getLinks()
+    public function getLinks($asArray = false)
     {
+        if ($asArray && \is_array($this->links)) {
+            $links = [];
+            foreach ($this->links as $link) {
+                \array_push($links, $link->toArray());
+            }
+            return $links;
+        }
         return $this->links;
     }
 
@@ -602,6 +620,41 @@ class Payment extends AbstractModel
     public function setAcquirerTransactionId($acquirerTransactionId)
     {
         $this->acquirerTransactionId = $acquirerTransactionId;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraDataCollection($asArray = false)
+    {
+        if ($asArray && \is_array($this->extraDataCollection)) {
+            $extraData = [];
+            foreach ($this->extraDataCollection as $link) {
+                \array_push($extraData, $link->toArray());
+            }
+            return $extraData;
+        }
+        return $this->extraDataCollection;
+    }
+
+    /**
+     * @param array $extraData
+     * @return Payment
+     */
+    public function setExtraDataCollection($extraData)
+    {
+        $extraDataCollection = [];
+
+        if (!\is_array($extraData)) {
+            return [];
+        }
+
+        foreach ($extraData as $data) {
+            \array_push($extraDataCollection, new ExtraData($data));
+        }
+
+        $this->extraDataCollection = $extraDataCollection;
         return $this;
     }
 

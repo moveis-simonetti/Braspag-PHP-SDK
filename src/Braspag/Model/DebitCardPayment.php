@@ -10,7 +10,7 @@ class DebitCardPayment extends Payment
     private $serviceTaxAmount;
 
     /**
-     * @var string
+     * @var DebitCardPayment
      */
     private $debitCard;
 
@@ -38,6 +38,19 @@ class DebitCardPayment extends Payment
      * @var string
      */
     private $interest;
+
+    public function toArray()
+    {
+        return [
+            'serviceTaxAmount' => $this->getServiceTaxAmount(),
+            'debitCard' => $this->getDebitCard()->toArray(),
+            'softDescriptor' => $this->getSoftDescriptor(),
+            'eci' => $this->getEci(),
+            'authenticate' => $this->isAuthenticate(),
+            'capture' => $this->isCapture(),
+            'interest' => $this->getInterest()
+        ];
+    }
 
     public function __construct($options = [])
     {
@@ -78,6 +91,12 @@ class DebitCardPayment extends Payment
     public function setDebitCard($debitCard)
     {
         $this->debitCard = $debitCard;
+
+        if (\is_object($debitCard) && !($debitCard instanceof Card)) {
+            throw new \InvalidArgumentException('Item must be a debitCard object.');
+        } else if (\is_array($debitCard)) {
+            $this->debitCard = new Card($debitCard);
+        }
         return $this;
     }
 

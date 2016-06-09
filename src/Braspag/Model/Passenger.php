@@ -35,6 +35,18 @@ class Passenger extends AbstractModel
      */
     public $status;
 
+    public function toArray()
+    {
+        return [
+            'email' => $this->getEmail(),
+            'identity' => $this->getIdentity(),
+            'name' => $this->getName(),
+            'rating' => $this->getRating(),
+            'phone' => $this->getPhone(),
+            'status' => $this->getStatus()
+        ];
+    }
+
     /**
      * @return string
      */

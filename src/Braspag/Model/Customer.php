@@ -31,9 +31,27 @@ class Customer extends AbstractModel
     private $birthDate;
 
     /**
-     * @var string
+     * @var Address
      */
     private $address;
+
+    /**
+     * @var Address
+     */
+    private $deliveryAddress;
+
+    public function toArray()
+    {
+        return [
+            'name' => $this->getName(),
+            'identity' => $this->getIdentity(),
+            'identityType' => $this->getIdentityType(),
+            'email' => $this->getEmail(),
+            'birthDate' => ($this->getBirthDate()) ? $this->getBirthDate()->format('Y-m-d') : null,
+            'address' => ($this->getAddress()) ? $this->getAddress()->toArray() : null,
+            'deliveryAddress' => ($this->getDeliveryAddress()) ? $this->getDeliveryAddress()->toArray() : null
+        ];
+    }
 
     /**
      * @return string
@@ -145,6 +163,30 @@ class Customer extends AbstractModel
             throw new \InvalidArgumentException('Item must be an Address object.');
         } else if (\is_array($address)) {
             $this->address = new Address($address);
+        }
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeliveryAddress()
+    {
+        return $this->deliveryAddress;
+    }
+
+    /**
+     * @param Address $deliveryAddress
+     * @return Customer
+     */
+    public function setDeliveryAddress($deliveryAddress)
+    {
+        $this->deliveryAddress = $deliveryAddress;
+
+        if (\is_object($deliveryAddress) && !($deliveryAddress instanceof Address)) {
+            throw new \InvalidArgumentException('Item must be an DeliveryAddress object.');
+        } else if (\is_array($deliveryAddress)) {
+            $this->deliveryAddress = new Address($deliveryAddress);
         }
         return $this;
     }
