@@ -151,7 +151,7 @@ class Payment extends AbstractModel
             'currency' => $this->getCurrency(),
             'country' => $this->getCountry(),
             'provider' => $this->getProvider(),
-            'credentialks' => $this->getCredentials(),
+            'credentials' => $this->getCredentials(),
             'extraData' => $this->getExtraData(),
             'returnUrl' => $this->getReturnUrl(),
             'reasonCode' => $this->getReasonCode(),
@@ -159,7 +159,7 @@ class Payment extends AbstractModel
             'providerReturnCode' => $this->getProviderReturnCode(),
             'providerReturnMessage' => $this->getProviderReturnMessage(),
             'status' => $this->getStatus(),
-            'lnks' => $this->getLinks(true),
+            'links' => $this->getLinks(true),
             'recurrentPayment' => $this->isRecurrentPayment(),
             'authenticationUrl' => $this->getAuthenticationUrl(),
             'authorizationCode' => $this->getAuthorizationCode(),
@@ -515,7 +515,7 @@ class Payment extends AbstractModel
      */
     public function getLinks($asArray = false)
     {
-        if ($asArray) {
+        if ($asArray && \is_array($this->links)) {
             $links = [];
             foreach ($this->links as $link) {
                 \array_push($links, $link->toArray());

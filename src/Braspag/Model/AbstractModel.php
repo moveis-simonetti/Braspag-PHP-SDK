@@ -9,11 +9,11 @@ class AbstractModel
 
     public function __construct($options = [])
     {
-        $config = include_once(__DIR__ . '/../../config/braspag.config.php');
+        $config = include __DIR__ . '/../../config/braspag.config.php';
 
         try {
             if (is_array($options) && is_array($config))
-                $options = \array_merge_recursive($config, $options);
+                $options = \array_merge($config, $options);
         } catch (\Exception $e) {
             echo $e->getFile();
         }

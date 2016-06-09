@@ -48,7 +48,7 @@ class Address extends AbstractModel
     public function toArray()
     {
         return [
-            'street' => $this->getState(),
+            'street' => $this->getStreet(),
             'number' => $this->getNumber(),
             'complement' => $this->getComplement(),
             'zipCode' => $this->getZipCode(),

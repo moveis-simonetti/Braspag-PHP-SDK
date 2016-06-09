@@ -43,26 +43,6 @@ class CreditCardPayment extends Payment
     /**
      * @var string
      */
-    protected $authenticationUrl;
-
-    /**
-     * @var string
-     */
-    protected $authorizationCode;
-
-    /**
-     * @var string
-     */
-    protected $proofOfSale;
-
-    /**
-     * @var string
-     */
-    protected $acquirerTransactionId;
-
-    /**
-     * @var string
-     */
     protected $softDescriptor;
 
     /**
@@ -72,7 +52,7 @@ class CreditCardPayment extends Payment
 
     public function toArray()
     {
-        return [
+        return \array_merge_recursive(parent::toArray(), [
             'serviceTaxAmount' => $this->getServiceTaxAmount(),
             'installments' => $this->getInstallments(),
             'interest' => $this->getInterest(),
@@ -80,13 +60,9 @@ class CreditCardPayment extends Payment
             'authenticate' => $this->isAuthenticate(),
             'recurrent' => $this->isRecurrent(),
             'creditCard' => $this->getCreditCard()->toArray(),
-            'authenticationUrl' => $this->getAuthenticationUrl(),
-            'authorizationCode' => $this->getAuthorizationCode(),
-            'proofOfSale' => $this->getProofOfSale(),
-            'acquirerTransactionId' => $this->getAcquirerTransactionId(),
             'softDescriptor' => $this->getSoftDescriptor(),
             'eci' => $this->getEci()
-        ];
+        ]);
     }
 
     /**
@@ -229,78 +205,6 @@ class CreditCardPayment extends Payment
         } else if (\is_array($creditCard)) {
             $this->creditCard = new Card($creditCard);
         }
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthenticationUrl()
-    {
-        return $this->authenticationUrl;
-    }
-
-    /**
-     * @param string $authenticationUrl
-     * @return CreditCardPayment
-     */
-    public function setAuthenticationUrl($authenticationUrl)
-    {
-        $this->authenticationUrl = $authenticationUrl;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthorizationCode()
-    {
-        return $this->authorizationCode;
-    }
-
-    /**
-     * @param string $authorizationCode
-     * @return CreditCardPayment
-     */
-    public function setAuthorizationCode($authorizationCode)
-    {
-        $this->authorizationCode = $authorizationCode;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProofOfSale()
-    {
-        return $this->proofOfSale;
-    }
-
-    /**
-     * @param string $proofOfSale
-     * @return CreditCardPayment
-     */
-    public function setProofOfSale($proofOfSale)
-    {
-        $this->proofOfSale = $proofOfSale;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAcquirerTransactionId()
-    {
-        return $this->acquirerTransactionId;
-    }
-
-    /**
-     * @param string $acquirerTransactionId
-     * @return CreditCardPayment
-     */
-    public function setAcquirerTransactionId($acquirerTransactionId)
-    {
-        $this->acquirerTransactionId = $acquirerTransactionId;
         return $this;
     }
 

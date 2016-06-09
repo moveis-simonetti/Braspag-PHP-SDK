@@ -90,7 +90,7 @@ class Sale extends AbstractModel
         if (\is_object($payment) && !($payment instanceof Payment)) {
             throw new \InvalidArgumentException('Item must be a Payment object.');
         } else if (\is_array($payment)) {
-            $class = __NAMESPACE__ . '\\' . $payment['type'] . 'Payment';
+            $class = __NAMESPACE__ . '\\' . (isset($payment['type']) ? $payment['type'] : '') . 'Payment';
             $this->payment = new $class($payment);
         }
         return $this;

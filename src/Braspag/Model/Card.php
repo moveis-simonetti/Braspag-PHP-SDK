@@ -21,7 +21,7 @@ class Card extends AbstractModel
     private $expirationDate;
 
     /**
-     * @var int
+     * @var string
      */
     private $securityCode;
 
