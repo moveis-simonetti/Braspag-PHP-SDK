@@ -11,6 +11,38 @@ novo projeto.
 ## Configuração
 Adicione "jotjunior/braspag-php-sdk": "dev-master" no seu composer.json.
 
-## Examples
-Você pode ver exemplos de uso do componente no diretório Exemplos, na 
-raiz deste repositório.
+## Exemplos
+
+# Venda Simplificada
+
+```php
+<?php
+
+use Braspag\ApiServices;
+use Braspag\Model\Sale;
+
+$sale = [
+    'merchantOrderId' => 2016080600,
+    'customer' => [
+        'name' => 'Comprador de Testes',
+    ],
+    'payment' => [
+        'type' => 'CreditCard',
+        'amount' => 100,
+        'provider' => 'Simulado',
+        'installments' => 1,
+        'creditCard' => [
+            'cardNumber' => '4532117080573700',
+            'holder' => 'Test T S Testando',
+            'expirationDate' => '12/2021',
+            'securityCode' => '000',
+            'brand' => 'Visa'
+        ]
+    ]
+];
+$sale = new Sale($sale);
+
+$service = new ApiServices();
+$result = $service->createSale($sale);
+```
+
