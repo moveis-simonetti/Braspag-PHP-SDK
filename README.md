@@ -1,3 +1,8 @@
+Importante
+==========
+Este projeto ainda está em fase inicial. Nem todas as funcionalidades foram testadas ainda. 
+Sempre que uma funcionalidade estiver OK, será adicionada aos exemplos logo abaixo.
+
 PHP SDK para [Braspag](http://www.braspag.com.br) API
 =====================================================
 
