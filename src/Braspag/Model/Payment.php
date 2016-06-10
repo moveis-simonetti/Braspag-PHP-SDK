@@ -498,8 +498,10 @@ class Payment extends AbstractModel
         if ($asArray && \is_array($this->links)) {
             $links = [];
             foreach ($this->links as $link) {
-                \array_push($links, $link->toArray());
+                $link = ($link instanceof \Braspag\Model\Link) ? $link->toArray() : $link;
+                \array_push($links, $link);
             }
+
             return $links;
         }
         return $this->links;
@@ -511,7 +513,7 @@ class Payment extends AbstractModel
      */
     public function setLinks($links)
     {
-        $this->links = $links;
+        $this->links = $this->parseLinks($links);
         return $this;
     }
 

@@ -37,7 +37,7 @@ class ApiService
         $this->config = include __DIR__ . '/../../config/braspag.config.php';
 
         if (\is_array($options)) {
-            $this->config = \array_merge_recursive($this->config, $options);
+            $this->config = \array_merge($this->config, $options);
         }
 
         $this->headers = array(
@@ -61,20 +61,23 @@ class ApiService
                 'body' => \json_encode($arrSale),
                 'headers' => $this->headers
             ]);
+
+            $result = \json_decode($response->getBody()->getContents(), true);
+
+            Hydrator::hydrate($sale, $result);
+
+
+            if ($response->getStatusCode() === HttpStatus::Created) {
+                return $sale;
+            } elseif ($response->getStatusCode() === HttpStatus::BadRequest) {
+                return BraspagUtils::getBadRequestErros($result);
+            }
+
+            return $result;
+
         } catch (\Exception $e) {
-            echo $e->getMessage();
+            return false;
         }
-
-        $result = \json_decode($response->getBody()->getContents(), true);
-        Hydrator::hydrate($sale, $result);
-
-        if ($response->getStatusCode() === HttpStatus::Created) {
-            return $sale;
-        } elseif ($response->getStatusCode() === HttpStatus::BadRequest) {
-            return BraspagUtils::getBadRequestErros($result);
-        }
-
-        return $result;
     }
 
     /**
@@ -89,7 +92,7 @@ class ApiService
         $uri = $this->config['apiUri'] . \sprintf('/sales/%s/capture', $paymentId);
 
         if ($captureRequest) {
-            $uri .= '?' . http_build_url($captureRequest->toArray());
+            $uri .= '?' . \http_build_query($captureRequest->toArray());
         }
 
         $response = $this->http()->request('PUT', $uri, [
