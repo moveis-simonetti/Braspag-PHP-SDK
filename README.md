@@ -66,7 +66,7 @@ $sale = [
 $sale = new Sale($sale);
 
 $service = new ApiService();
-$result = $service->createSale($sale);
+$result = $service->authorize($sale);
 ```
 
 ### Venda Completa
@@ -139,5 +139,5 @@ $sale = [
 $sale = new Braspag\Model\Sale($sale);
 
 $service = new ApiService();
-$result = $service->createSale($sale);
+$result = $service->authorize($sale);
 ```
