@@ -21,6 +21,10 @@ class ApiService
      */
     protected $headers;
 
+    /**
+     * ApiService constructor.
+     * @param array $options
+     */
     function __construct($options = [])
     {
 
@@ -38,8 +42,8 @@ class ApiService
     }
 
     /**
-     * @param Sale $sale
-     * @return Sale
+     * @param Model\Sale $sale
+     * @return Model\Sale
      * @throws \Exception
      */
     public function authorize(Model\Sale $sale)
@@ -72,8 +76,8 @@ class ApiService
 
     /**
      * Captures a pre-authorized payment
-     * @param GUID $paymentId
-     * @param CaptureRequest $captureRequest
+     * @param string $paymentId
+     * @param Model\CaptureRequest $captureRequest
      * @return mixed
      */
     public function capture($paymentId, Model\CaptureRequest $captureRequest)
@@ -102,7 +106,7 @@ class ApiService
 
     /**
      * Void a payment
-     * @param GUID $paymentId
+     * @param string $paymentId
      * @param int $amount
      * @return mixed
      */
@@ -133,7 +137,7 @@ class ApiService
 
     /**
      * Gets a sale
-     * @param GUID $paymentId
+     * @param string $paymentId
      * @return mixed
      */
     public function get($paymentId)
