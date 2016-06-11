@@ -96,5 +96,4 @@ class Sale extends AbstractModel
         return $this;
     }
 
-
 }

@@ -2,24 +2,14 @@
 
 namespace Braspag;
 
-use Braspag\Model\CaptureResponse;
-use Braspag\Model\Sale;
-use Braspag\Model\HttpStatus;
-use Braspag\Model\CreditCardPayment;
-use Braspag\Model\BoletoPayment;
-use Braspag\Model\DebitCardPayment;
-use Braspag\Model\EletronicTransferPayment;
-use Braspag\Model\CaptureRequest;
+use Braspag\Model;
 use Braspag\Lib\Hydrator;
-use GuzzleHttp\Client as HttpClient;
+use Braspag\Lib\Util;
 
 class ApiService
 {
 
-    /**
-     * @var HttpClient
-     */
-    protected $http;
+    use Util;
 
     /**
      * @var array
@@ -52,7 +42,7 @@ class ApiService
      * @return Sale
      * @throws \Exception
      */
-    public function createSale(Sale $sale)
+    public function authorize(Model\Sale $sale)
     {
         $arrSale = $this->capitalizeRequestData($sale->toArray());
 
@@ -67,9 +57,9 @@ class ApiService
             Hydrator::hydrate($sale, $result);
 
 
-            if ($response->getStatusCode() === HttpStatus::Created) {
+            if ($response->getStatusCode() === Model\HttpStatus::Created) {
                 return $sale;
-            } elseif ($response->getStatusCode() === HttpStatus::BadRequest) {
+            } elseif ($response->getStatusCode() === Model\HttpStatus::BadRequest) {
                 return BraspagUtils::getBadRequestErros($result);
             }
 
@@ -86,7 +76,7 @@ class ApiService
      * @param CaptureRequest $captureRequest
      * @return mixed
      */
-    public function capture($paymentId, CaptureRequest $captureRequest)
+    public function capture($paymentId, Model\CaptureRequest $captureRequest)
     {
 
         $uri = $this->config['apiUri'] . \sprintf('/sales/%s/capture', $paymentId);
@@ -101,10 +91,10 @@ class ApiService
 
         $result = $response->getBody()->getMetadata();
 
-        if ($response->getStatusCode() === HttpStatus::Ok) {
-            $captureResponse = new CaptureResponse($result);
+        if ($response->getStatusCode() === Model\HttpStatus::Ok) {
+            $captureResponse = new Model\CaptureResponse($result);
             return $captureResponse;
-        } elseif ($response->getStatusCode() === BraspagHttpStatus::BadRequest) {
+        } elseif ($response->getStatusCode() === Model\HttpStatus::BadRequest) {
             return BraspagUtils::getBadRequestErros($result);
         }
         return $response->code;
@@ -131,10 +121,10 @@ class ApiService
 
         $result = $response->getBody()->getMetadata();
 
-        if ($response->getStatusCode() === HttpStatus::Ok) {
-            $voidResponse = new VoidResponse($result);
+        if ($response->getStatusCode() === Model\HttpStatus::Ok) {
+            $voidResponse = new Model\VoidResponse($result);
             return $voidResponse;
-        } elseif ($response->code == BraspagHttpStatus::BadRequest) {
+        } elseif ($response->code == Model\HttpStatus::BadRequest) {
             return BraspagUtils::getBadRequestErros($result);
         }
 
@@ -149,43 +139,26 @@ class ApiService
     public function get($paymentId)
     {
 
-        $uri = $this->config['apiQueryUri'] . \sprintf('/sales/%s', $paymentId);
+        try {
+            $uri = $this->config['apiQueryUri'] . \sprintf('/sales/%s', $paymentId);
 
-        $response = $this->http()->request('GET', $uri, [
-            'headers' => $this->headers
-        ]);
+            $response = $this->http()->request('GET', $uri, [
+                'headers' => $this->headers
+            ]);
 
-        $result = $response->getBody()->getMetadata();
+            $result = \json_decode($response->getBody()->getContents(), true);
 
-        if ($response->getStatusCode() === HttpStatus::Ok) {
-            $sale = new Sale($result);
-            return $sale;
-        } elseif ($response->code == BraspagHttpStatus::BadRequest) {
-            return BraspagUtils::getBadRequestErros($response->body);
-        }
-        return $response->code;
-    }
-
-    protected function http()
-    {
-        if (!$this->http) {
-            $this->http = new HttpClient();
-        }
-        return $this->http;
-    }
-
-    static protected function capitalizeRequestData($data)
-    {
-        foreach ($data as $key => &$value) {
-            if (\is_array($value)) {
-                $value = self::capitalizeRequestData($value);
+            if ($response->getStatusCode() === Model\HttpStatus::Ok) {
+                $sale = new Model\Sale($result);
+                return $sale;
+            } elseif ($response->getStatusCode() == Model\HttpStatus::BadRequest) {
+                return BraspagUtils::getBadRequestErros($response->body);
             }
-            $data[\ucfirst($key)] = $value;
-            if (ctype_lower($key{0})) {
-                unset($data[$key]);
-            }
+
+        } catch (\Exception $e) {
+
         }
-        return $data;
+
     }
 
 }
