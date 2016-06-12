@@ -102,6 +102,7 @@ class ApiService
 
             $result = \json_decode($response->getBody()->getContents(), true);
 
+
             Hydrator::hydrate($captureResponse, $result);
 
         } catch (RequestException $e) {

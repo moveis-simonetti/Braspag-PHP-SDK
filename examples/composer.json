@@ -2,6 +2,5 @@
   "require": {
     "php": ">=5.5",
     "jotjunior/braspag-php-sdk": "dev-master"
-  }
+  },
 }
-

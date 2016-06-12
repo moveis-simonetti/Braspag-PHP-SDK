@@ -2,8 +2,15 @@
 
 namespace Braspag\Model;
 
-class ExtraData extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class ExtraData
 {
+
+    /**
+     * @var string
+     */
+    private $id;
 
     /**
      * @var string
@@ -18,9 +25,15 @@ class ExtraData extends AbstractModel
     public function toArray()
     {
         return [
+            'id' => $this->getId(),
             'name' => $this->getName(),
             'value' => $this->getValue(),
         ];
+    }
+
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
     }
 
     /**
@@ -59,5 +72,23 @@ class ExtraData extends AbstractModel
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return ExtraData
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+    
 
 }

@@ -2,7 +2,9 @@
 
 namespace Braspag\Model;
 
-class Browser extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Browser
 {
 
     /**
@@ -41,6 +43,11 @@ class Browser extends AbstractModel
         ];
     }
 
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
+    }
+    
     /**
      * @return boolean
      */

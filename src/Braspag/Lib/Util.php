@@ -62,14 +62,10 @@ trait Util
      */
     public function parseMessages($messages)
     {
-
         $messageCollection = array();
 
         foreach ($messages as $message) {
-            if (\is_array($message)) {
-                $message = $this->setMessage($message);
-                \array_push($messageCollection, $message);
-            }
+            \array_push($messageCollection, $this->setMessage((array)$message));
         }
 
         return $messageCollection;

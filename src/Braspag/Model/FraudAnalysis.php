@@ -8,42 +8,57 @@ class FraudAnalysis extends AbstractModel
     /**
      * @var string
      */
-    public $sequence;
+    private $sequence;
 
     /**
      * @var string
      */
-    public $sequenceCriteria;
+    private $sequenceCriteria;
 
     /**
      * @var string
      */
-    public $fingerPrintId;
+    private $fingerPrintId;
 
     /**
      * @var boolean
      */
-    public $captureOnLowRisk;
+    private $captureOnLowRisk;
 
     /**
      * @var boolean
      */
-    public $voidOnHighRisk;
+    private $voidOnHighRisk;
 
     /**
      * @var string
      */
-    public $status;
+    private $status;
 
     /**
      * @var Browser
      */
-    public $browser;
+    private $browser;
 
     /**
      * @var Cart
      */
-    public $cart;
+    private $cart;
+
+    /**
+     * @var array
+     */
+    private $merchantDefinedFields;
+
+    /**
+     * @var Shipping
+     */
+    private $shipping;
+
+    /**
+     * @var Travel
+     */
+    private $travel;
 
     /**
      * @var FraudAnalysisReplyData
@@ -222,6 +237,54 @@ class FraudAnalysis extends AbstractModel
     }
 
     /**
+     * @return Shipping
+     */
+    public function getShipping()
+    {
+        return $this->shipping;
+    }
+
+    /**
+     * @param Shipping $shipping
+     * @return FraudAnalysis
+     */
+    public function setShipping($shipping)
+    {
+        $this->shipping = $shipping;
+
+        if (\is_object($shipping) && !($shipping instanceof Shipping)) {
+            throw new \InvalidArgumentException('Item must be a Shipping object.');
+        } else if (\is_array($shipping)) {
+            $this->shipping = new Shipping($shipping);
+        }
+        return $this;
+    }
+
+    /**
+     * @return Travel
+     */
+    public function getTravel()
+    {
+        return $this->travel;
+    }
+
+    /**
+     * @param Travel $travel
+     * @return FraudAnalysis
+     */
+    public function setTravel($travel)
+    {
+        $this->travel = $travel;
+
+        if (\is_object($travel) && !($travel instanceof Travel)) {
+            throw new \InvalidArgumentException('Item must be a Travel object.');
+        } else if (\is_array($travel)) {
+            $this->travel = new Travel($travel);
+        }
+        return $this;
+    }
+
+    /**
      * @return FraudAnalysisReplyData
      */
     public function getReplyData()
@@ -230,7 +293,7 @@ class FraudAnalysis extends AbstractModel
     }
 
     /**
-     * @param FraudAnalysisReplyData $replyData
+     * @param $replyData
      * @return FraudAnalysis
      */
     public function setReplyData($replyData)
@@ -245,5 +308,39 @@ class FraudAnalysis extends AbstractModel
         return $this;
     }
 
+    public function addMerchantDefinedFields($extraData)
+    {
+        if (\is_object($extraData) && ($extraData instanceof ExtraData)) {
+            \array_push($this->merchantDefinedFields, $extraData);
+        } else if (!($extraData instanceof ExtraData)) {
+            throw new \InvalidArgumentException('Item must be a ExtraData object.');
+        } else {
+            \array_push($this->merchantDefinedFields, new ExtraData($extraData));
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getMerchantDefinedFields()
+    {
+        return $this->merchantDefinedFields;
+    }
+
+    /**
+     * @param $merchantDefinedFields
+     * @return FraudAnalysis
+     */
+    public function setMerchantDefinedFields($merchantDefinedFields)
+    {
+        $this->merchantDefinedFields = $merchantDefinedFields;
+
+        if (\is_object($merchantDefinedFields) && !($merchantDefinedFields instanceof ExtraData)) {
+            throw new \InvalidArgumentException('Item must be a ExtraData object.');
+        } else if (\is_array($merchantDefinedFields)) {
+            $this->merchantDefinedFields = new ExtraData($merchantDefinedFields);
+        }
+        return $this;
+    }
 
 }

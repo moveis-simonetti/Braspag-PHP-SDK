@@ -20,18 +20,13 @@ class Sale extends AbstractModel
      */
     private $payment;
 
-    /**
-     * @var array
-     */
-    private $errors;
-
     public function toArray()
     {
         return [
             'merchantOrderId' => $this->getMerchantOrderId(),
             'customer' => $this->getCustomer()->toArray(),
             'payment' => $this->getPayment()->toArray(),
-            'errors' => $this->getMessages(),
+            'messages' => $this->getMessages(),
         ];
     }
 

@@ -8,7 +8,7 @@ class Cart extends AbstractModel
     /**
      * @var bool
      */
-    private $gift;
+    private $isGift;
 
     /**
      * @var bool
@@ -23,7 +23,7 @@ class Cart extends AbstractModel
     public function toArray()
     {
         return [
-            'gift' => $this->isGift(),
+            'isGift' => $this->isGift(),
             'returnsAccepted' => $this->isReturnsAccepted(),
             'items' => $this->getItems()
         ];
@@ -34,16 +34,16 @@ class Cart extends AbstractModel
      */
     public function isGift()
     {
-        return $this->gift;
+        return $this->isGift;
     }
 
     /**
      * @param boolean $gift
      * @return Cart
      */
-    public function setGift($gift)
+    public function setIsGift($isGift)
     {
-        $this->gift = $gift;
+        $this->isGift = $isGift;
         return $this;
     }
 

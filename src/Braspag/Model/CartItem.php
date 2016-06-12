@@ -91,7 +91,7 @@ class CartItem extends AbstractModel
             'timeHedge' => $this->getTimeHedge(),
             'type' => $this->getType(),
             'velocityHedge' => $this->getVelocityHedge(),
-            'passenger' => $this->getPassenger()->toArray()
+            'passenger' => ($this->getPassenger()) ? $this->getPassenger()->toArray() : null
 
         ];
     }
