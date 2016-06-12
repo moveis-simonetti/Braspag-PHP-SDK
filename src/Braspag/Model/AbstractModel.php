@@ -3,9 +3,14 @@
 namespace Braspag\Model;
 
 use Braspag\Lib\Hydrator;
+use Braspag\Lib\Util;
 
 class AbstractModel
 {
+
+    use Util;
+
+    private $messages = [];
 
     public function __construct($options = [])
     {
@@ -21,25 +26,34 @@ class AbstractModel
         Hydrator::hydrate($this, $config);
     }
 
-    public function parseLink($data)
+    public function addMessage($message)
     {
-        if (!$data) {
-            return null;
-        }
-        return new Link((array)$data);
+        \array_push($this->messages, new Message($message));
+        return $this;
     }
 
-
-    public function parseLinks($source)
+    /**
+     * @return array
+     */
+    public function getMessages()
     {
-        $linkCollection = array();
-
-        foreach ($source as $l) {
-            $link = $this->parseLink($l);
-            \array_push($linkCollection, $link);
-        }
-
-        return $linkCollection;
+        return $this->messages;
     }
+
+    /**
+     * @param mixed $messages
+     * @return AbstractModel
+     */
+    public function setMessages($messages)
+    {
+        $this->messages = $this->parseMessages($messages);
+        return $this;
+    }
+
+    public function isValid()
+    {
+        return !\count($this->messages);
+    }
+
 
 }

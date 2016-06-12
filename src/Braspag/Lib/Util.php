@@ -3,17 +3,11 @@
 namespace Braspag\Lib;
 
 use GuzzleHttp\Client as HttpClient;
+use Braspag\Model\Link;
+use Braspag\Model\Message;
 
 trait Util
 {
-    protected function http()
-    {
-        if (!$this->http) {
-            $this->http = new HttpClient();
-        }
-        return $this->http;
-    }
-
     static protected function capitalizeRequestData($data)
     {
         foreach ($data as $key => &$value) {
@@ -26,6 +20,59 @@ trait Util
             }
         }
         return $data;
+    }
+
+    public function addLink($data)
+    {
+        if (!$data) {
+            return null;
+        }
+        return new Link((array)$data);
+    }
+
+
+    public function parseLinks($source)
+    {
+        $linkCollection = array();
+
+        foreach ($source as $l) {
+            $link = $this->addLink($l);
+            \array_push($linkCollection, $link);
+        }
+
+        return $linkCollection;
+    }
+
+    /**
+     * @param $data
+     * @return Message|null
+     */
+    public function setMessage($data)
+    {
+        if (!$data) {
+            return null;
+        }
+        return new Message((array)$data);
+    }
+
+
+    /**
+     * @param $messages
+     * @return $this
+     */
+    public function parseMessages($messages)
+    {
+
+        $messageCollection = array();
+
+        foreach ($messages as $message) {
+            if (\is_array($message)) {
+                $message = $this->setMessage($message);
+                \array_push($messageCollection, $message);
+            }
+        }
+
+        return $messageCollection;
     }
 
 }

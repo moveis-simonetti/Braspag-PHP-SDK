@@ -2,7 +2,9 @@
 
 namespace Braspag\Model;
 
-class Link extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Link
 {
     /**
      * @var string
@@ -26,6 +28,11 @@ class Link extends AbstractModel
             'rel' => $this->getRel(),
             'href' => $this->getHref()
         ];
+    }
+
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
     }
 
     /**

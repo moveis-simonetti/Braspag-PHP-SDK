@@ -20,12 +20,18 @@ class Sale extends AbstractModel
      */
     private $payment;
 
+    /**
+     * @var array
+     */
+    private $errors;
+
     public function toArray()
     {
         return [
             'merchantOrderId' => $this->getMerchantOrderId(),
             'customer' => $this->getCustomer()->toArray(),
             'payment' => $this->getPayment()->toArray(),
+            'errors' => $this->getMessages(),
         ];
     }
 
@@ -94,6 +100,18 @@ class Sale extends AbstractModel
             $this->payment = new $class($payment);
         }
         return $this;
+    }
+
+    public function isValid()
+    {
+        if ($this->getPayment()->getReasonCode() != 0) {
+            $this->addMessage([
+                'code' => $this->getPayment()->getReasonCode(),
+                'message' => $this->getPayment()->getReasonMessage()
+            ]);
+        }
+
+        return parent::isValid();
     }
 
 }

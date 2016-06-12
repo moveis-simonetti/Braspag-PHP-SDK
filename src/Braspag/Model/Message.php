@@ -2,7 +2,9 @@
 
 namespace Braspag\Model;
 
-class Error extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Message
 {
     /**
      * @var int
@@ -22,6 +24,12 @@ class Error extends AbstractModel
         ];
     }
 
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
+    }
+
+
     /**
      * @return string
      */
@@ -32,7 +40,7 @@ class Error extends AbstractModel
 
     /**
      * @param string $message
-     * @return Error
+     * @return Message
      */
     public function setMessage($message)
     {
@@ -50,7 +58,7 @@ class Error extends AbstractModel
 
     /**
      * @param int $code
-     * @return Error
+     * @return Message
      */
     public function setCode($code)
     {

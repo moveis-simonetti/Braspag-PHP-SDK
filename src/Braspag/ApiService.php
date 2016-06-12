@@ -5,6 +5,8 @@ namespace Braspag;
 use Braspag\Model;
 use Braspag\Lib\Hydrator;
 use Braspag\Lib\Util;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Client as HttpClient;
 
 class ApiService
 {
@@ -20,6 +22,11 @@ class ApiService
      * @var array
      */
     protected $headers;
+
+    /**
+     * @var HttpClient
+     */
+    protected $http;
 
     /**
      * ApiService constructor.
@@ -60,18 +67,12 @@ class ApiService
 
             Hydrator::hydrate($sale, $result);
 
-
-            if ($response->getStatusCode() === Model\HttpStatus::Created) {
-                return $sale;
-            } elseif ($response->getStatusCode() === Model\HttpStatus::BadRequest) {
-                return BraspagUtils::getBadRequestErros($result);
-            }
-
-            return $result;
-
-        } catch (\Exception $e) {
-            return false;
+        } catch (RequestException $e) {
+            $sale->setMessages(\json_decode($e->getResponse()->getBody()->getContents()));
         }
+
+        return $sale;
+
     }
 
     /**
@@ -83,25 +84,31 @@ class ApiService
     public function capture($paymentId, Model\CaptureRequest $captureRequest)
     {
 
-        $uri = $this->config['apiUri'] . \sprintf('/sales/%s/capture', $paymentId);
+        if (!$paymentId) {
+            throw new \InvalidArgumentException('$paymentId é obrigatório');
+        }
 
+        $uri = $this->config['apiUri'] . \sprintf('/sales/%s/capture', $paymentId);
         if ($captureRequest) {
             $uri .= '?' . \http_build_query($captureRequest->toArray());
         }
 
-        $response = $this->http()->request('PUT', $uri, [
-            'headers' => $this->headers
-        ]);
+        $captureResponse = new Model\CaptureResponse();
 
-        $result = $response->getBody()->getMetadata();
+        try {
+            $response = $this->http()->request('PUT', $uri, [
+                'headers' => $this->headers
+            ]);
 
-        if ($response->getStatusCode() === Model\HttpStatus::Ok) {
-            $captureResponse = new Model\CaptureResponse($result);
-            return $captureResponse;
-        } elseif ($response->getStatusCode() === Model\HttpStatus::BadRequest) {
-            return BraspagUtils::getBadRequestErros($result);
+            $result = \json_decode($response->getBody()->getContents(), true);
+
+            Hydrator::hydrate($captureResponse, $result);
+
+        } catch (RequestException $e) {
+            $captureResponse->setMessages(\json_decode($e->getResponse()->getBody()->getContents(), true));
         }
-        return $response->code;
+
+        return $captureResponse;
     }
 
     /**
@@ -164,5 +171,14 @@ class ApiService
         }
 
     }
+
+    protected function http()
+    {
+        if (!$this->http) {
+            $this->http = new HttpClient();
+        }
+        return $this->http;
+    }
+
 
 }

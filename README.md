@@ -36,7 +36,9 @@ $service = new ApiService([
 
 ## Exemplos
 
-### Venda Simplificada
+### Vendas
+
+#### Venda Simplificada
 
 ```php
 <?php
@@ -69,7 +71,7 @@ $service = new ApiService();
 $result = $service->authorize($sale);
 ```
 
-### Venda Completa
+#### Venda Completa
 
 ```php
 <?php
@@ -140,4 +142,31 @@ $sale = new Braspag\Model\Sale($sale);
 
 $service = new ApiService();
 $result = $service->authorize($sale);
+```
+
+### Captura
+
+```php
+<?php
+
+require_once("vendor/autoload.php");
+
+use Braspag\ApiService;
+use Braspag\Model\CaptureRequest;
+
+$service = new ApiService();
+
+$paymentId = '';
+$captureRequest = new CaptureRequest([
+    'amount' => 15099,
+    'serviceTaxAmount' => 0
+]);
+
+$capture = $service->capture($paymentId, $captureRequest);
+
+if ($capture->isValid()) {
+    $status = $capture->getStatus();
+} else {
+    $messages = $capture->getMessages();
+}
 ```

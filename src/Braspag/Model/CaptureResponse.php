@@ -21,16 +21,31 @@ class CaptureResponse extends AbstractModel
     private $reasonMessage;
 
     /**
+     * @var int
+     */
+    private $providerReturnCode;
+
+    /**
+     * @var string
+     */
+    private $providerReturnMessage;
+
+    /**
      * @var array
      */
     private $links;
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return [
             'status' => $this->getStatus(),
             'reasonCode' => $this->getReasonCode(),
             'reasonMessage' => $this->getReasonMessage(),
+            'providerReturnCode' => $this->getProviderReturnCode(),
+            'providerReturnMessage' => $this->getProviderReturnMessage(),
             'links' => $this->getLinks()
         ];
     }
@@ -88,6 +103,43 @@ class CaptureResponse extends AbstractModel
         $this->reasonMessage = $reasonMessage;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getProviderReturnCode()
+    {
+        return $this->providerReturnCode;
+    }
+
+    /**
+     * @param int $providerReturnCode
+     * @return CaptureResponse
+     */
+    public function setProviderReturnCode($providerReturnCode)
+    {
+        $this->providerReturnCode = $providerReturnCode;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProviderReturnMessage()
+    {
+        return $this->providerReturnMessage;
+    }
+
+    /**
+     * @param string $providerReturnMessage
+     * @return CaptureResponse
+     */
+    public function setProviderReturnMessage($providerReturnMessage)
+    {
+        $this->providerReturnMessage = $providerReturnMessage;
+        return $this;
+    }
+
 
     /**
      * @return array
