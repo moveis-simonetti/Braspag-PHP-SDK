@@ -5,7 +5,7 @@ namespace Braspag\Model;
 use Braspag\Lib\Hydrator;
 use Braspag\Lib\Util;
 
-class AbstractModel
+abstract class AbstractModel
 {
 
     use Util;
