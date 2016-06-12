@@ -1,7 +1,8 @@
 Importante
 ==========
-Este projeto ainda está em fase inicial. Nem todas as funcionalidades foram testadas ainda. 
-Sempre que uma funcionalidade estiver OK, será adicionada aos exemplos logo abaixo.
+Este projeto ainda está em fase inicial. Nem todas as funcionalidades 
+foram testadas ainda. Sempre que uma funcionalidade estiver OK, será 
+adicionada aos exemplos logo abaixo.
 
 PHP SDK para [Braspag](http://www.braspag.com.br) API
 =====================================================
@@ -10,7 +11,7 @@ PHP SDK para [Braspag](http://www.braspag.com.br) API
 SDK para facilitar o uso da API Braspag. 
 
 Este projeto foi criado a partir de um fork do [projeto original](https://github.com/Braspag/BraspagApiPhpSdk), 
-porém como as mudanças foram muito significativas, resolvi criar um 
+porém, como as mudanças foram muito significativas, resolvi criar um 
 novo projeto. 
 
 ## Instalação
@@ -25,11 +26,11 @@ Adicione "jotjunior/braspag-php-sdk": "dev-master" no seu composer.json.
 ```
 
 ## Configuração
-Por padrão, o arquivo de configuração da aplicação fica no diretório config, 
-na raiz do repositório. 
+Por padrão, o arquivo de configuração da aplicação fica no diretório 
+config, na raiz do repositório. 
 
-Para reescrever qualuqer atributo da configuraçõa, basta injetar, como um Array, 
-no momento de instanciar o objeto.
+Para reescrever qualquer atributo da configuração, basta injetar os 
+dados, como um Array, no momento de instanciar o objeto.
 
 Exemplo:
 ```php
@@ -175,9 +176,7 @@ $sale = [
                 'value' => '1234567'
             ]
         ]
-
     ]
-
 ];
 
 $sale = new Sale($sale);
