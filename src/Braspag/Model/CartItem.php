@@ -16,7 +16,7 @@ class CartItem extends AbstractModel
     private $hostHedge;
 
     /**
-     * @var boolean
+     * @var string
      */
     private $nonSensicalHedge;
 
@@ -135,7 +135,7 @@ class CartItem extends AbstractModel
     /**
      * @return boolean
      */
-    public function isNonSensicalHedge()
+    public function getNonSensicalHedge()
     {
         return $this->nonSensicalHedge;
     }
@@ -353,6 +353,8 @@ class CartItem extends AbstractModel
         }
         return $this;
     }
+
+
 
 
 }

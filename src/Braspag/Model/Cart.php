@@ -25,7 +25,7 @@ class Cart extends AbstractModel
         return [
             'isGift' => $this->isGift(),
             'returnsAccepted' => $this->isReturnsAccepted(),
-            'items' => $this->getItems()
+            'items' => $this->getItems(true)
         ];
     }
 

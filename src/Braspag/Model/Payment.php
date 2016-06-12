@@ -414,6 +414,10 @@ class Payment extends AbstractModel
      */
     public function setReasonCode($reasonCode)
     {
+        if($reasonCode != 0) {
+
+        }
+
         $this->reasonCode = $reasonCode;
         return $this;
     }

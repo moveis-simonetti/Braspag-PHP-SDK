@@ -61,7 +61,8 @@ class CreditCardPayment extends Payment
             'recurrent' => $this->isRecurrent(),
             'creditCard' => $this->getCreditCard()->toArray(),
             'softDescriptor' => $this->getSoftDescriptor(),
-            'eci' => $this->getEci()
+            'eci' => $this->getEci(),
+            'fraudAnalysis' => ($this->getFraudAnalysis()) ? $this->getFraudAnalysis()->toArray() : null
         ]);
     }
 

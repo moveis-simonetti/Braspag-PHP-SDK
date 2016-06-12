@@ -76,7 +76,7 @@ class FraudAnalysis extends AbstractModel
             'status' => $this->getStatus(),
             'browser' => $this->getBrowser()->toArray(),
             'cart' => $this->getCart()->toArray(),
-            'replyData' => $this->getReplyData()->toArray(),
+            'replyData' => ($this->getReplyData()) ? $this->getReplyData()->toArray() : null,
         ];
     }
 

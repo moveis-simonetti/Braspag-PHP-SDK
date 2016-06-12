@@ -72,7 +72,6 @@ class ApiService
         }
 
         return $sale;
-
     }
 
     /**
