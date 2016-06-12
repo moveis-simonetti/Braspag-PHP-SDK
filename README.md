@@ -15,6 +15,14 @@ novo projeto.
 
 ## Instalação
 Adicione "jotjunior/braspag-php-sdk": "dev-master" no seu composer.json.
+```json
+{
+  "require": {
+    "php": ">=5.5",
+    "jotjunior/braspag-php-sdk": "dev-master"
+  }
+}
+```
 
 ## Configuração
 Por padrão, o arquivo de configuração da aplicação fica no diretório config, 
@@ -35,13 +43,15 @@ $service = new ApiService([
 ```
 
 ## Exemplos
+Para realizar seus testes, crie suas credenciais no [Sandbox](https://cadastrosandbox.braspag.com.br) da Braspag.
 
 ### Vendas
 
 #### Venda Simplificada
-
 ```php
 <?php
+
+require_once("vendor/autoload.php");
 
 use Braspag\ApiService;
 use Braspag\Model\Sale;
@@ -65,18 +75,50 @@ $sale = [
         ]
     ]
 ];
+
 $sale = new Sale($sale);
 
-$service = new ApiService();
+$service = new ApiService([
+    'merchantId' => '00000000-0000-0000-0000-000000000000',
+    'merchantKey' => '0000000000000000000000000000000000000000',
+]);
+
+// retorna Braspag\Model\Sale
 $result = $service->authorize($sale);
+
+if ($result->isValid()) {
+    // Braspag\Model\Payment
+    $payment = $result->getPayment();
+
+    // Array do pagamento
+    $paymentArray = $result->getPayment()->toArray();
+
+    // Braspag\Model\Customer
+    $customer = $result->getCustomer();
+
+    // Array do cliente
+    $customer = $result->getCustomer()->toArray();
+
+    // Array do pedido completo
+    $result->toArray();
+
+
+} else {
+    $messages = $result->getMessages();
+    // mensagens de alerta e erros
+}
 ```
 
 #### Venda Completa
-
 ```php
 <?php
 
+require_once("vendor/autoload.php");
+
 use Braspag\ApiService;
+use Braspag\Model\Sale;
+
+$orderId = date('YmdHi');
 
 $sale = [
     'merchantOrderId' => 2016060900,
@@ -138,14 +180,39 @@ $sale = [
 
 ];
 
-$sale = new Braspag\Model\Sale($sale);
+$sale = new Sale($sale);
 
-$service = new ApiService();
+$service = new ApiService([
+    'merchantId' => '00000000-0000-0000-0000-000000000000',
+    'merchantKey' => '0000000000000000000000000000000000000000',
+]);
+
+// retorna Braspag\Model\Sale
 $result = $service->authorize($sale);
+
+if ($result->isValid()) {
+    // Braspag\Model\Payment
+    $payment = $result->getPayment();
+
+    // Array do pagamento
+    $paymentArray = $result->getPayment()->toArray();
+
+    // Braspag\Model\Customer
+    $customer = $result->getCustomer();
+
+    // Array do cliente
+    $customer = $result->getCustomer()->toArray();
+
+    // Array do pedido completo
+    $result->toArray();
+
+} else {
+    $messages = $result->getMessages();
+    // mensagens de alerta e erros
+}
 ```
 
 ### Captura
-
 ```php
 <?php
 
@@ -156,15 +223,17 @@ use Braspag\Model\CaptureRequest;
 
 $service = new ApiService();
 
-$paymentId = '';
+$paymentId = '00000000-0000-0000-0000-000000000000';
 $captureRequest = new CaptureRequest([
     'amount' => 15099,
     'serviceTaxAmount' => 0
 ]);
 
+// retorna Braspag\Model\CaptureResponse
 $capture = $service->capture($paymentId, $captureRequest);
 
 if ($capture->isValid()) {
+    // status da transacao
     $status = $capture->getStatus();
 } else {
     $messages = $capture->getMessages();
