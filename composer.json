@@ -1,6 +1,18 @@
 {
   "name": "jotjunior/braspag-php-sdk",
+  "type": "library",
   "description": "Braspag API PHP SDK",
+  "keywords": [
+    "payment",
+    "credit card",
+    "debit card",
+    "boleto",
+    "anti-fraud",
+    "gateway",
+    "braspag",
+    "cielo"
+  ],
+  "license": "GPL 2.0",
   "authors": [
     {
       "name": "Paulo Fernandes",
@@ -11,7 +23,6 @@
       "email": "joao.zanon@triallo.com.br"
     }
   ],
-  "license": "GPL 2.0",
   "require": {
     "php": ">=5.5.0",
     "guzzlehttp/guzzle": "~6.0"
