@@ -57,7 +57,7 @@ require_once("vendor/autoload.php");
 use Braspag\ApiService;
 use Braspag\Model\Sale\Sale;
 
-$sale = [
+$data = [
     'merchantOrderId' => 2016080600,
     'customer' => [
         'name' => 'Comprador de Testes',
@@ -77,7 +77,7 @@ $sale = [
     ]
 ];
 
-$sale = new Sale($sale);
+$sale = new Sale($data);
 
 $service = new ApiService([
     'merchantId' => '00000000-0000-0000-0000-000000000000',
@@ -122,7 +122,7 @@ use Braspag\Model\Payment\Payment;
 
 $orderId = date('YmdHi');
 
-$sale = [
+$data = [
     'merchantOrderId' => 2016060900,
     'customer' => [
         'name' => 'Comprador de Testes',
@@ -180,7 +180,7 @@ $sale = [
     ]
 ];
 
-$sale = new Sale($sale);
+$sale = new Sale($data);
 
 $service = new ApiService([
     'merchantId' => '00000000-0000-0000-0000-000000000000',
@@ -221,7 +221,7 @@ require_once("vendor/autoload.php");
 use Braspag\ApiService;
 use Braspag\Model\Sale\Sale;
 
-$sale = [
+$data = [
     'merchantOrderId' => 2016080600,
     'customer' => [
         'name' => 'Comprador de Testes',
@@ -242,7 +242,7 @@ $sale = [
         ]
     ]
 ];
-$sale = new Sale($sale);
+$sale = new Sale($data);
 
 $service = new ApiService([
     'merchantId' => '00000000-0000-0000-0000-000000000000',
@@ -288,7 +288,7 @@ use Braspag\Model\Payment\Payment;
 
 $orderId = date('YmdHi');
 
-$sale = [
+$data = [
     'merchantOrderId' => 2016060900,
     'customer' => [
         'name' => 'Comprador de Testes',
@@ -413,7 +413,7 @@ $sale = [
 
 ];
 
-$sale = new Sale($sale);
+$sale = new Sale($data);
 
 $service = new ApiService([
     'merchantId' => '00000000-0000-0000-0000-000000000000',
