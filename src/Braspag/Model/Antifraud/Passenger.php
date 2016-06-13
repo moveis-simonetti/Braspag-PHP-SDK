@@ -22,17 +22,12 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Antifraud;
 
 use Braspag\Lib\Hydrator;
 
-class Browser
+class Passenger
 {
-
-    /**
-     * @var boolean
-     */
-    public $cookiesAccepted;
 
     /**
      * @var string
@@ -42,50 +37,43 @@ class Browser
     /**
      * @var string
      */
-    public $hostName;
+    public $identity;
 
     /**
      * @var string
      */
-    public $ipAddress;
+    public $name;
 
     /**
      * @var string
      */
-    public $type;
+    public $rating;
+
+    /**
+     * @var string
+     */
+    public $phone;
+
+    /**
+     * @var string
+     */
+    public $status;
 
     public function toArray()
     {
         return [
-            'cookieAccepted' => $this->isCookiesAccepted(),
             'email' => $this->getEmail(),
-            'hostName' => $this->getHostName(),
-            'ipAddress' => $this->getIpAddress(),
-            'type' => $this->getType()
+            'identity' => $this->getIdentity(),
+            'name' => $this->getName(),
+            'rating' => $this->getRating(),
+            'phone' => $this->getPhone(),
+            'status' => $this->getStatus()
         ];
     }
 
     public function __construct($options = [])
     {
         Hydrator::hydrate($this, $options);
-    }
-    
-    /**
-     * @return boolean
-     */
-    public function isCookiesAccepted()
-    {
-        return $this->cookiesAccepted;
-    }
-
-    /**
-     * @param boolean $cookiesAccepted
-     * @return Browser
-     */
-    public function setCookiesAccepted($cookiesAccepted)
-    {
-        $this->cookiesAccepted = $cookiesAccepted;
-        return $this;
     }
 
     /**
@@ -98,7 +86,7 @@ class Browser
 
     /**
      * @param string $email
-     * @return Browser
+     * @return Passenger
      */
     public function setEmail($email)
     {
@@ -109,54 +97,90 @@ class Browser
     /**
      * @return string
      */
-    public function getHostName()
+    public function getIdentity()
     {
-        return $this->hostName;
+        return $this->identity;
     }
 
     /**
-     * @param string $hostName
-     * @return Browser
+     * @param string $identity
+     * @return Passenger
      */
-    public function setHostName($hostName)
+    public function setIdentity($identity)
     {
-        $this->hostName = $hostName;
+        $this->identity = $identity;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getIpAddress()
+    public function getName()
     {
-        return $this->ipAddress;
+        return $this->name;
     }
 
     /**
-     * @param string $ipAddress
-     * @return Browser
+     * @param string $name
+     * @return Passenger
      */
-    public function setIpAddress($ipAddress)
+    public function setName($name)
     {
-        $this->ipAddress = $ipAddress;
+        $this->name = $name;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getType()
+    public function getRating()
     {
-        return $this->type;
+        return $this->rating;
     }
 
     /**
-     * @param string $type
-     * @return Browser
+     * @param string $rating
+     * @return Passenger
      */
-    public function setType($type)
+    public function setRating($rating)
     {
-        $this->type = $type;
+        $this->rating = $rating;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return Passenger
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return Passenger
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
         return $this;
     }
 

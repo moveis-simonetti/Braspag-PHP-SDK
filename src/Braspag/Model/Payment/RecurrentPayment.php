@@ -22,7 +22,9 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
+
+use Braspag\Model\AbstractModel;
 
 class RecurrentPayment extends AbstractModel
 {
@@ -63,9 +65,9 @@ class RecurrentPayment extends AbstractModel
     public $interval;
 
     /**
-     * @var string
+     * @var array
      */
-    public $link;
+    public $links;
 
     /**
      * @var boolean
@@ -82,7 +84,7 @@ class RecurrentPayment extends AbstractModel
             'startDate' => ($this->getStartDate()) ? $this->getStartDate()->format('Y-m-d') : null,
             'endDate' => ($this->getEndDate()) ? $this->getEndDate()->format('Y-m-d') : null,
             'interval' => $this->getInterval(),
-            'link' => $this->getLink()
+            'link' => $this->getLinks(true)
         ];
     }
 
@@ -213,20 +215,29 @@ class RecurrentPayment extends AbstractModel
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getLink()
+    public function getLinks($asArray = false)
     {
-        return $this->link;
+        if ($asArray && \is_array($this->links)) {
+            $links = [];
+            foreach ($this->links as $link) {
+                $link = ($link instanceof Link) ? $link->toArray() : $link;
+                \array_push($links, $link);
+            }
+
+            return $links;
+        }
+        return $this->links;
     }
 
     /**
-     * @param string $link
-     * @return RecurrentPayment
+     * @param array $links
+     * @return Payment
      */
-    public function setLink($link)
+    public function setLinks($links)
     {
-        $this->link = $link;
+        $this->links = $this->parseLinks($links);
         return $this;
     }
 

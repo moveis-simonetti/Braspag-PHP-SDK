@@ -22,37 +22,41 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Antifraud;
 
 use Braspag\Lib\Hydrator;
 
-class ExtraData
+class Shipping
 {
 
     /**
      * @var string
      */
-    private $id;
+    private $addressee;
 
     /**
      * @var string
      */
-    private $name;
+    private $method;
 
     /**
-     * @var mixed
+     * @var string
      */
-    private $value;
+    private $phone;
 
     public function toArray()
     {
         return [
-            'id' => $this->getId(),
-            'name' => $this->getName(),
-            'value' => $this->getValue(),
+            'addressee' => $this->getAddressee(),
+            'method' => $this->getMethod(),
+            'phone' => $this->getPhone(),
         ];
     }
 
+    /**
+     * Shipping constructor.
+     * @param array $options
+     */
     public function __construct($options = [])
     {
         Hydrator::hydrate($this, $options);
@@ -61,56 +65,55 @@ class ExtraData
     /**
      * @return string
      */
-    public function getName()
+    public function getAddressee()
     {
-        return $this->name;
+        return $this->addressee;
     }
 
     /**
-     * @param string $name
-     * @return ExtraData
+     * @param string $addressee
+     * @return Shipping
      */
-    public function setName($name)
+    public function setAddressee($addressee)
     {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param mixed $value
-     * @return ExtraData
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
+        $this->addressee = $addressee;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getId()
+    public function getMethod()
     {
-        return $this->id;
+        return $this->method;
     }
 
     /**
-     * @param string $id
-     * @return ExtraData
+     * @param string $method
+     * @return Shipping
      */
-    public function setId($id)
+    public function setMethod($method)
     {
-        $this->id = $id;
+        $this->method = $method;
         return $this;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     * @return Shipping
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        return $this;
+    }
 
 }

@@ -22,62 +22,69 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Sale;
 
-class CaptureRequest extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Message
 {
-
     /**
      * @var int
      */
-    private $amount;
+    private $code;
 
     /**
-     * @var int
+     * @var string
      */
-    private $serviceTaxAmount;
+    private $message;
 
     public function toArray()
     {
         return [
-            'amount' => $this->getAmount(),
-            'serviceTaxAmount' => $this->getServiceTaxAmount()
+            'code' => $this->getCode(),
+            'message' => $this->getMessage(),
         ];
     }
 
-    /**
-     * @return float
-     */
-    public function getAmount()
+    public function __construct($options = [])
     {
-        return $this->amount;
+        Hydrator::hydrate($this, $options);
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 
     /**
-     * @param int $amount
-     * @return CaptureRequest
+     * @param string $message
+     * @return Message
      */
-    public function setAmount($amount)
+    public function setMessage($message)
     {
-        $this->amount = (int)\number_format($amount, 2, '', '');
+        $this->message = $message;
         return $this;
     }
 
     /**
      * @return int
      */
-    public function getServiceTaxAmount()
+    public function getCode()
     {
-        return $this->serviceTaxAmount;
+        return $this->code;
     }
 
     /**
-     * @param float $serviceTaxAmount
-     * @return CaptureRequest
+     * @param int $code
+     * @return Message
      */
-    public function setServiceTaxAmount($serviceTaxAmount)
+    public function setCode($code)
     {
-        $this->serviceTaxAmount = (int)\number_format($serviceTaxAmount, 2, '', '');
+        $this->code = $code;
         return $this;
     }
 

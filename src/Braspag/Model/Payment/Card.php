@@ -22,9 +22,11 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
 
-class Card extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Card
 {
 
     /**
@@ -83,6 +85,11 @@ class Card extends AbstractModel
             'brand' => $this->getBrand()
 
         ];
+    }
+
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
     }
 
     /**

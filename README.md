@@ -55,7 +55,7 @@ Para realizar seus testes, crie suas credenciais no [Sandbox](https://cadastrosa
 require_once("vendor/autoload.php");
 
 use Braspag\ApiService;
-use Braspag\Model\Sale;
+use Braspag\Model\Sale\Sale;
 
 $sale = [
     'merchantOrderId' => 2016080600,
@@ -117,7 +117,8 @@ if ($result->isValid()) {
 require_once("vendor/autoload.php");
 
 use Braspag\ApiService;
-use Braspag\Model\Sale;
+use Braspag\Model\Sale\Sale;
+use Braspag\Model\Payment\Payment;
 
 $orderId = date('YmdHi');
 
@@ -158,7 +159,7 @@ $sale = [
         'provider' => 'Simulado',
         'serviceTaxAmount' => 0,
         'installments' => 1,
-        'interest' => \Braspag\Model\Interest::ByMerchant,
+        'interest' => Payment::InterestByMerchant,
         'capture' => true,
         'authenticate' => false,
         'softDescriptor' => 'tst',
@@ -218,7 +219,7 @@ if ($result->isValid()) {
 require_once("vendor/autoload.php");
 
 use Braspag\ApiService;
-use Braspag\Model\Sale;
+use Braspag\Model\Sale\Sale;
 
 $sale = [
     'merchantOrderId' => 2016080600,
@@ -282,7 +283,8 @@ if ($result->isValid()) {
 require_once("vendor/autoload.php");
 
 use Braspag\ApiService;
-use Braspag\Model\Sale;
+use Braspag\Model\Sale\Sale;
+use Braspag\Model\Payment\Payment;
 
 $orderId = date('YmdHi');
 
@@ -323,7 +325,7 @@ $sale = [
         'provider' => 'Simulado',
         'serviceTaxAmount' => 0,
         'installments' => 1,
-        'interest' => \Braspag\Model\Interest::ByMerchant,
+        'interest' => Payment::InterestByMerchant,
         'capture' => false,
         'authenticate' => false,
         'softDescriptor' => 'tst',
@@ -455,7 +457,7 @@ if ($result->isValid()) {
 require_once("vendor/autoload.php");
 
 use Braspag\ApiService;
-use Braspag\Model\CaptureRequest;
+use Braspag\Model\Sale\CaptureRequest;
 
 $service = new ApiService([
     'merchantId' => '00000000-0000-0000-0000-000000000000',

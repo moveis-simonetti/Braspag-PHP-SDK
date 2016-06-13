@@ -22,28 +22,33 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
 
 use Braspag\Lib\Hydrator;
 
-class Leg
+class Link
 {
+    /**
+     * @var string
+     */
+    private $method;
 
     /**
      * @var string
      */
-    private $destination;
+    private $rel;
 
     /**
      * @var string
      */
-    private $origin;
+    private $href;
 
     public function toArray()
     {
         return [
-            'destination' => $this->getDestination(),
-            'origin' => $this->getOrigin(),
+            'method' => $this->getMethod(),
+            'rel' => $this->getRel(),
+            'href' => $this->getHref()
         ];
     }
 
@@ -55,37 +60,56 @@ class Leg
     /**
      * @return string
      */
-    public function getDestination()
+    public function getMethod()
     {
-        return $this->destination;
+        return $this->method;
     }
 
     /**
-     * @param string $destination
-     * @return Shipping
+     * @param string $method
+     * @return Link
      */
-    public function setDestination($destination)
+    public function setMethod($method)
     {
-        $this->destination = $destination;
+        $this->method = $method;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getOrigin()
+    public function getRel()
     {
-        return $this->origin;
+        return $this->rel;
     }
 
     /**
-     * @param string $origin
-     * @return Shipping
+     * @param string $rel
+     * @return Link
      */
-    public function setOrigin($origin)
+    public function setRel($rel)
     {
-        $this->origin = $origin;
+        $this->rel = $rel;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getHref()
+    {
+        return $this->href;
+    }
+
+    /**
+     * @param string $href
+     * @return Link
+     */
+    public function setHref($href)
+    {
+        $this->href = $href;
+        return $this;
+    }
+
 
 }

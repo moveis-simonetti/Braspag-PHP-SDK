@@ -22,10 +22,17 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Antifraud;
 
-class Passenger extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Browser
 {
+
+    /**
+     * @var boolean
+     */
+    public $cookiesAccepted;
 
     /**
      * @var string
@@ -35,38 +42,54 @@ class Passenger extends AbstractModel
     /**
      * @var string
      */
-    public $identity;
+    public $hostName;
 
     /**
      * @var string
      */
-    public $name;
+    public $ipAddress;
 
     /**
      * @var string
      */
-    public $rating;
-
-    /**
-     * @var string
-     */
-    public $phone;
-
-    /**
-     * @var string
-     */
-    public $status;
+    public $type;
 
     public function toArray()
     {
         return [
+            'cookieAccepted' => $this->isCookiesAccepted(),
             'email' => $this->getEmail(),
-            'identity' => $this->getIdentity(),
-            'name' => $this->getName(),
-            'rating' => $this->getRating(),
-            'phone' => $this->getPhone(),
-            'status' => $this->getStatus()
+            'hostName' => $this->getHostName(),
+            'ipAddress' => $this->getIpAddress(),
+            'type' => $this->getType()
         ];
+    }
+
+    /**
+     * Browser constructor.
+     * @param array $options
+     */
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isCookiesAccepted()
+    {
+        return $this->cookiesAccepted;
+    }
+
+    /**
+     * @param boolean $cookiesAccepted
+     * @return Browser
+     */
+    public function setCookiesAccepted($cookiesAccepted)
+    {
+        $this->cookiesAccepted = $cookiesAccepted;
+        return $this;
     }
 
     /**
@@ -79,7 +102,7 @@ class Passenger extends AbstractModel
 
     /**
      * @param string $email
-     * @return Passenger
+     * @return Browser
      */
     public function setEmail($email)
     {
@@ -90,90 +113,54 @@ class Passenger extends AbstractModel
     /**
      * @return string
      */
-    public function getIdentity()
+    public function getHostName()
     {
-        return $this->identity;
+        return $this->hostName;
     }
 
     /**
-     * @param string $identity
-     * @return Passenger
+     * @param string $hostName
+     * @return Browser
      */
-    public function setIdentity($identity)
+    public function setHostName($hostName)
     {
-        $this->identity = $identity;
+        $this->hostName = $hostName;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getIpAddress()
     {
-        return $this->name;
+        return $this->ipAddress;
     }
 
     /**
-     * @param string $name
-     * @return Passenger
+     * @param string $ipAddress
+     * @return Browser
      */
-    public function setName($name)
+    public function setIpAddress($ipAddress)
     {
-        $this->name = $name;
+        $this->ipAddress = $ipAddress;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getRating()
+    public function getType()
     {
-        return $this->rating;
+        return $this->type;
     }
 
     /**
-     * @param string $rating
-     * @return Passenger
+     * @param string $type
+     * @return Browser
      */
-    public function setRating($rating)
+    public function setType($type)
     {
-        $this->rating = $rating;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @param string $phone
-     * @return Passenger
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param string $status
-     * @return Passenger
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
+        $this->type = $type;
         return $this;
     }
 

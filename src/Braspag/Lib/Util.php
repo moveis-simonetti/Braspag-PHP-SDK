@@ -25,8 +25,8 @@
 namespace Braspag\Lib;
 
 use GuzzleHttp\Client as HttpClient;
-use Braspag\Model\Link;
-use Braspag\Model\Message;
+use Braspag\Model\Payment\Link;
+use Braspag\Model\Sale\Message;
 
 trait Util
 {

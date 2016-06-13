@@ -22,7 +22,9 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Sale;
+
+use Braspag\Model\AbstractModel;
 
 class CaptureResponse extends AbstractModel
 {

@@ -22,33 +22,28 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Sale;
 
 use Braspag\Lib\Hydrator;
 
-class Link
+class CaptureRequest
 {
-    /**
-     * @var string
-     */
-    private $method;
 
     /**
-     * @var string
+     * @var int
      */
-    private $rel;
+    private $amount;
 
     /**
-     * @var string
+     * @var int
      */
-    private $href;
+    private $serviceTaxAmount;
 
     public function toArray()
     {
         return [
-            'method' => $this->getMethod(),
-            'rel' => $this->getRel(),
-            'href' => $this->getHref()
+            'amount' => $this->getAmount(),
+            'serviceTaxAmount' => $this->getServiceTaxAmount()
         ];
     }
 
@@ -58,56 +53,38 @@ class Link
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getMethod()
+    public function getAmount()
     {
-        return $this->method;
+        return $this->amount;
     }
 
     /**
-     * @param string $method
-     * @return Link
+     * @param int $amount
+     * @return CaptureRequest
      */
-    public function setMethod($method)
+    public function setAmount($amount)
     {
-        $this->method = $method;
+        $this->amount = (int)\number_format($amount, 2, '', '');
         return $this;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getRel()
+    public function getServiceTaxAmount()
     {
-        return $this->rel;
+        return $this->serviceTaxAmount;
     }
 
     /**
-     * @param string $rel
-     * @return Link
+     * @param float $serviceTaxAmount
+     * @return CaptureRequest
      */
-    public function setRel($rel)
+    public function setServiceTaxAmount($serviceTaxAmount)
     {
-        $this->rel = $rel;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHref()
-    {
-        return $this->href;
-    }
-
-    /**
-     * @param string $href
-     * @return Link
-     */
-    public function setHref($href)
-    {
-        $this->href = $href;
+        $this->serviceTaxAmount = (int)\number_format($serviceTaxAmount, 2, '', '');
         return $this;
     }
 

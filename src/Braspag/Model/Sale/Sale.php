@@ -22,7 +22,11 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Sale;
+
+use Braspag\Model\AbstractModel;
+use Braspag\Model\Customer\Customer;
+use Braspag\Model\Payment\Payment;
 
 class Sale extends AbstractModel
 {
@@ -113,7 +117,7 @@ class Sale extends AbstractModel
         if (\is_object($payment) && !($payment instanceof Payment)) {
             throw new \InvalidArgumentException('Item must be a Payment object.');
         } else if (\is_array($payment)) {
-            $class = __NAMESPACE__ . '\\' . array_change_key_case($payment, CASE_LOWER)['type'] . 'Payment';
+            $class = 'Braspag\\Model\\Payment\\' . array_change_key_case($payment, CASE_LOWER)['type'] . 'Payment';
             $this->payment = new $class($payment);
         }
         return $this;

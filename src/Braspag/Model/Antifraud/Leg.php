@@ -22,86 +22,69 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Antifraud;
 
-class Shipping extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Leg
 {
 
     /**
      * @var string
      */
-    private $addressee;
+    private $destination;
 
     /**
      * @var string
      */
-    private $method;
-
-    /**
-     * @var string
-     */
-    private $phone;
+    private $origin;
 
     public function toArray()
     {
         return [
-            'addressee' => $this->getAddressee(),
-            'method' => $this->getMethod(),
-            'phone' => $this->getPhone(),
+            'destination' => $this->getDestination(),
+            'origin' => $this->getOrigin(),
         ];
     }
 
-    /**
-     * @return string
-     */
-    public function getAddressee()
+    public function __construct($options = [])
     {
-        return $this->addressee;
+        Hydrator::hydrate($this, $options);
     }
 
     /**
-     * @param string $addressee
+     * @return string
+     */
+    public function getDestination()
+    {
+        return $this->destination;
+    }
+
+    /**
+     * @param string $destination
      * @return Shipping
      */
-    public function setAddressee($addressee)
+    public function setDestination($destination)
     {
-        $this->addressee = $addressee;
+        $this->destination = $destination;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getMethod()
+    public function getOrigin()
     {
-        return $this->method;
+        return $this->origin;
     }
 
     /**
-     * @param string $method
+     * @param string $origin
      * @return Shipping
      */
-    public function setMethod($method)
+    public function setOrigin($origin)
     {
-        $this->method = $method;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPhone()
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @param string $phone
-     * @return Shipping
-     */
-    public function setPhone($phone)
-    {
-        $this->phone = $phone;
+        $this->origin = $origin;
         return $this;
     }
 

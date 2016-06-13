@@ -22,46 +22,95 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
 
-class EletronicTransferPayment extends Payment
+use Braspag\Lib\Hydrator;
+
+class ExtraData
 {
 
     /**
      * @var string
      */
-    private $url;
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var mixed
+     */
+    private $value;
 
     public function toArray()
     {
         return [
-            'url' => $this->getUrl()
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'value' => $this->getValue(),
         ];
     }
 
     public function __construct($options = [])
     {
-        parent::__construct($options);
-        $this->type = "EletronicTransfer";
+        Hydrator::hydrate($this, $options);
     }
 
     /**
      * @return string
      */
-    public function getUrl()
+    public function getName()
     {
-        return $this->url;
+        return $this->name;
     }
 
     /**
-     * @param string $url
-     * @return EletronicTransferPayment
+     * @param string $name
+     * @return ExtraData
      */
-    public function setUrl($url)
+    public function setName($name)
     {
-        $this->url = $url;
+        $this->name = $name;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param mixed $value
+     * @return ExtraData
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return ExtraData
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+    
 
 }

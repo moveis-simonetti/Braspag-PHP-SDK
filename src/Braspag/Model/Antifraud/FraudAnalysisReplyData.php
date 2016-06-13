@@ -22,9 +22,11 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Antifraud;
 
-class FraudAnalysisReplyData extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class FraudAnalysisReplyData
 {
 
     /**
@@ -98,6 +100,15 @@ class FraudAnalysisReplyData extends AbstractModel
             'casePriority' => $this->getCasePriority()
 
         ];
+    }
+
+    /**
+     * FraudAnalysisReplyData constructor.
+     * @param array $options
+     */
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
     }
 
     /**

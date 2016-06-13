@@ -22,7 +22,9 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
+
+use Braspag\Model\Antifraud\FraudAnalysis;
 
 class CreditCardPayment extends Payment
 {
@@ -38,11 +40,6 @@ class CreditCardPayment extends Payment
     protected $installments;
 
     /**
-     * @var string
-     */
-    protected $interest;
-
-    /**
      * @var boolean
      */
     protected $capture;
@@ -51,11 +48,6 @@ class CreditCardPayment extends Payment
      * @var boolean
      */
     protected $authenticate;
-
-    /**
-     * @var boolean
-     */
-    protected $recurrent;
 
     /**
      * @var Card
@@ -80,7 +72,6 @@ class CreditCardPayment extends Payment
             'interest' => $this->getInterest(),
             'capture' => $this->isCapture(),
             'authenticate' => $this->isAuthenticate(),
-            'recurrent' => $this->isRecurrent(),
             'creditCard' => $this->getCreditCard()->toArray(),
             'softDescriptor' => $this->getSoftDescriptor(),
             'eci' => $this->getEci(),
@@ -136,24 +127,6 @@ class CreditCardPayment extends Payment
     }
 
     /**
-     * @return string
-     */
-    public function getInterest()
-    {
-        return $this->interest;
-    }
-
-    /**
-     * @param boolean $interest
-     * @return CreditCardPayment
-     */
-    public function setInterest($interest)
-    {
-        $this->interest = $interest;
-        return $this;
-    }
-
-    /**
      * @return boolean
      */
     public function isCapture()
@@ -190,25 +163,7 @@ class CreditCardPayment extends Payment
     }
 
     /**
-     * @return boolean
-     */
-    public function isRecurrent()
-    {
-        return $this->recurrent;
-    }
-
-    /**
-     * @param boolean $recurrent
-     * @return CreditCardPayment
-     */
-    public function setRecurrent($recurrent)
-    {
-        $this->recurrent = $recurrent;
-        return $this;
-    }
-
-    /**
-     * @return string
+     * @return Card
      */
     public function getCreditCard()
     {

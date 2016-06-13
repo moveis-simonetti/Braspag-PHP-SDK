@@ -22,9 +22,11 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Customer;
 
-class Customer extends AbstractModel
+use Braspag\Lib\Hydrator;
+
+class Customer
 {
 
     /**
@@ -73,6 +75,15 @@ class Customer extends AbstractModel
             'address' => ($this->getAddress()) ? $this->getAddress()->toArray() : null,
             'deliveryAddress' => ($this->getDeliveryAddress()) ? $this->getDeliveryAddress()->toArray() : null
         ];
+    }
+
+    /**
+     * Customer constructor.
+     * @param array $options
+     */
+    public function __construct($options = [])
+    {
+        Hydrator::hydrate($this, $options);
     }
 
     /**

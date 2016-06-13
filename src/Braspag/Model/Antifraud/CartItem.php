@@ -22,7 +22,9 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Antifraud;
+
+use Braspag\Model\AbstractModel;
 
 class CartItem extends AbstractModel
 {
@@ -375,8 +377,6 @@ class CartItem extends AbstractModel
         }
         return $this;
     }
-
-
 
 
 }

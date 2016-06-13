@@ -22,69 +22,44 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
 
-use Braspag\Lib\Hydrator;
-
-class Message
+class EletronicTransferPayment extends Payment
 {
-    /**
-     * @var int
-     */
-    private $code;
 
     /**
      * @var string
      */
-    private $message;
+    private $url;
 
     public function toArray()
     {
         return [
-            'code' => $this->getCode(),
-            'message' => $this->getMessage(),
+            'url' => $this->getUrl()
         ];
     }
 
     public function __construct($options = [])
     {
-        Hydrator::hydrate($this, $options);
+        parent::__construct($options);
+        $this->type = "EletronicTransfer";
     }
-
 
     /**
      * @return string
      */
-    public function getMessage()
+    public function getUrl()
     {
-        return $this->message;
+        return $this->url;
     }
 
     /**
-     * @param string $message
-     * @return Message
+     * @param string $url
+     * @return EletronicTransferPayment
      */
-    public function setMessage($message)
+    public function setUrl($url)
     {
-        $this->message = $message;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param int $code
-     * @return Message
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
+        $this->url = $url;
         return $this;
     }
 

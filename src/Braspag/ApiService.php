@@ -24,7 +24,11 @@
 
 namespace Braspag;
 
-use Braspag\Model;
+use Braspag\Model\Sale\Sale;
+use Braspag\Model\Sale\CaptureRequest;
+use Braspag\Model\Sale\CaptureResponse;
+use Braspag\Model\Sale\VoidResponse;
+use Braspag\Model\HttpStatus;
 use Braspag\Lib\Hydrator;
 use Braspag\Lib\Util;
 use GuzzleHttp\Exception\RequestException;
@@ -32,7 +36,6 @@ use GuzzleHttp\Client as HttpClient;
 
 class ApiService
 {
-
     use Util;
 
     /**
@@ -71,11 +74,11 @@ class ApiService
     }
 
     /**
-     * @param Model\Sale $sale
-     * @return Model\Sale
+     * @param Sale $sale
+     * @return Sale
      * @throws \Exception
      */
-    public function authorize(Model\Sale $sale)
+    public function authorize(Sale $sale)
     {
         $arrSale = $this->capitalizeRequestData($sale->toArray());
 
@@ -99,10 +102,10 @@ class ApiService
     /**
      * Captures a pre-authorized payment
      * @param string $paymentId
-     * @param Model\CaptureRequest $captureRequest
+     * @param CaptureRequest $captureRequest
      * @return mixed
      */
-    public function capture($paymentId, Model\CaptureRequest $captureRequest)
+    public function capture($paymentId, CaptureRequest $captureRequest)
     {
 
         if (!$paymentId) {
@@ -114,7 +117,7 @@ class ApiService
             $uri .= '?' . \http_build_query($captureRequest->toArray());
         }
 
-        $captureResponse = new Model\CaptureResponse();
+        $captureResponse = new CaptureResponse();
 
         try {
             $response = $this->http()->request('PUT', $uri, [
@@ -154,11 +157,11 @@ class ApiService
 
         $result = $response->getBody()->getMetadata();
 
-        if ($response->getStatusCode() === Model\HttpStatus::Ok) {
-            $voidResponse = new Model\VoidResponse($result);
+        if ($response->getStatusCode() === HttpStatus::Ok) {
+            $voidResponse = new VoidResponse($result);
             return $voidResponse;
-        } elseif ($response->code == Model\HttpStatus::BadRequest) {
-            return BraspagUtils::getBadRequestErros($result);
+        } elseif ($response->code == HttpStatus::BadRequest) {
+            return false;
         }
 
         return $response->getStatusCode();
@@ -181,10 +184,10 @@ class ApiService
 
             $result = \json_decode($response->getBody()->getContents(), true);
 
-            if ($response->getStatusCode() === Model\HttpStatus::Ok) {
-                $sale = new Model\Sale($result);
+            if ($response->getStatusCode() === HttpStatus::Ok) {
+                $sale = new Sale($result);
                 return $sale;
-            } elseif ($response->getStatusCode() == Model\HttpStatus::BadRequest) {
+            } elseif ($response->getStatusCode() == HttpStatus::BadRequest) {
                 return BraspagUtils::getBadRequestErros($response->body);
             }
 

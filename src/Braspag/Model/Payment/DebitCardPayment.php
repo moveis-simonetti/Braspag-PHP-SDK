@@ -22,7 +22,7 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
 
 class DebitCardPayment extends Payment
 {
@@ -32,7 +32,7 @@ class DebitCardPayment extends Payment
     private $serviceTaxAmount;
 
     /**
-     * @var DebitCardPayment
+     * @var Card
      */
     private $debitCard;
 
@@ -55,11 +55,6 @@ class DebitCardPayment extends Payment
      * @var boolean
      */
     private $capture;
-
-    /**
-     * @var string
-     */
-    private $interest;
 
     public function toArray()
     {
@@ -193,24 +188,5 @@ class DebitCardPayment extends Payment
         $this->capture = $capture;
         return $this;
     }
-
-    /**
-     * @return string
-     */
-    public function getInterest()
-    {
-        return $this->interest;
-    }
-
-    /**
-     * @param string $interest
-     * @return DebitCardPayment
-     */
-    public function setInterest($interest)
-    {
-        $this->interest = $interest;
-        return $this;
-    }
-
 
 }

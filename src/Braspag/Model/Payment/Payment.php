@@ -22,10 +22,15 @@
  * along with Braspag-PHP-SDK. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Braspag\Model;
+namespace Braspag\Model\Payment;
+
+use Braspag\Model\AbstractModel;
 
 class Payment extends AbstractModel
 {
+
+    const InterestByMerchant = 'ByMerchant';
+    const InterestByIssuer = 'ByIssuer';
 
     /**
      * @var string
@@ -128,7 +133,7 @@ class Payment extends AbstractModel
     protected $links;
 
     /**
-     * @var boolean
+     * @var RecurrentPayment
      */
     protected $recurrentPayment;
 
@@ -157,6 +162,11 @@ class Payment extends AbstractModel
      */
     protected $config;
 
+    /**
+     * @var string
+     */
+    protected $interest;
+
     public function toArray()
     {
         return [
@@ -180,7 +190,7 @@ class Payment extends AbstractModel
             'providerReturnMessage' => $this->getProviderReturnMessage(),
             'status' => $this->getStatus(),
             'links' => $this->getLinks(true),
-            'recurrentPayment' => $this->isRecurrentPayment(),
+            'recurrentPayment' => ($this->getRecurrentPayment()) ? $this->getRecurrentPayment()->toArray() : null,
             'authenticationUrl' => $this->getAuthenticationUrl(),
             'authorizationCode' => $this->getAuthorizationCode(),
             'proofOfSale' => $this->getProofOfSale(),
@@ -436,7 +446,7 @@ class Payment extends AbstractModel
      */
     public function setReasonCode($reasonCode)
     {
-        if($reasonCode != 0) {
+        if ($reasonCode != 0) {
 
         }
 
@@ -544,20 +554,26 @@ class Payment extends AbstractModel
     }
 
     /**
-     * @return boolean
+     * @return RecurrentPayment
      */
-    public function isRecurrentPayment()
+    public function getRecurrentPayment()
     {
         return $this->recurrentPayment;
     }
 
     /**
-     * @param boolean $recurrentPayment
-     * @return Payment
+     * @param string $recurrentPayment
+     * @return RecurrentPayment
      */
     public function setRecurrentPayment($recurrentPayment)
     {
         $this->recurrentPayment = $recurrentPayment;
+
+        if (\is_object($recurrentPayment) && !($recurrentPayment instanceof RecurrentPayment)) {
+            throw new \InvalidArgumentException('Item must be a recurrentPayment object.');
+        } else if (\is_array($recurrentPayment)) {
+            $this->recurrentPayment = new RecurrentPayment($recurrentPayment);
+        }
         return $this;
     }
 
@@ -686,5 +702,22 @@ class Payment extends AbstractModel
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getInterest()
+    {
+        return $this->interest;
+    }
+
+    /**
+     * @param string $interest
+     * @return Payment
+     */
+    public function setInterest($interest)
+    {
+        $this->interest = $interest;
+        return $this;
+    }
 
 }
