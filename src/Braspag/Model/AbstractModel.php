@@ -26,6 +26,7 @@ namespace Braspag\Model;
 
 use Braspag\Lib\Hydrator;
 use Braspag\Lib\Util;
+use Braspag\Model\Sale\Message;
 
 abstract class AbstractModel
 {
