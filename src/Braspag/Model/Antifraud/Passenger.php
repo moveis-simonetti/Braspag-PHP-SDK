@@ -32,32 +32,32 @@ class Passenger
     /**
      * @var string
      */
-    public $email;
+    private $email;
 
     /**
      * @var string
      */
-    public $identity;
+    private $identity;
 
     /**
      * @var string
      */
-    public $name;
+    private $name;
 
     /**
      * @var string
      */
-    public $rating;
+    private $rating;
 
     /**
      * @var string
      */
-    public $phone;
+    private $phone;
 
     /**
      * @var string
      */
-    public $status;
+    private $status;
 
     public function toArray()
     {

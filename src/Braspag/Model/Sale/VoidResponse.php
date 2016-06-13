@@ -30,22 +30,22 @@ class VoidResponse extends AbstractModel
     /**
      * @var string
      */
-    public $status;
+    private $status;
 
     /**
      * @var int
      */
-    public $reasonCode;
+    private $reasonCode;
 
     /**
      * @var string
      */
-    public $reasonMessage;
+    private $reasonMessage;
 
     /**
      * @var array
      */
-    public $links;
+    private $links;
 
     public function toArray()
     {

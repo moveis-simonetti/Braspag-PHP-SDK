@@ -32,47 +32,47 @@ class RecurrentPayment extends AbstractModel
     /**
      * @var string
      */
-    public $recurrentPaymentId;
+    private $recurrentPaymentId;
 
     /**
      * @var int
      */
-    public $reasonCode;
+    private $reasonCode;
 
     /**
      * @var string
      */
-    public $reasonMessage;
+    private $reasonMessage;
 
     /**
      * @var \DateTime
      */
-    public $nextRecurrency;
+    private $nextRecurrency;
 
     /**
      * @var \DateTime
      */
-    public $startDate;
+    private $startDate;
 
     /**
      * @var \DateTime
      */
-    public $endDate;
+    private $endDate;
 
     /**
      * @var int
      */
-    public $interval;
+    private $interval;
 
     /**
      * @var array
      */
-    public $links;
+    private $links;
 
     /**
      * @var boolean
      */
-    public $authorizeNow;
+    private $authorizeNow;
 
     public function toArray()
     {

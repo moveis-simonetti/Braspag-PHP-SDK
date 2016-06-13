@@ -32,27 +32,27 @@ class Browser
     /**
      * @var boolean
      */
-    public $cookiesAccepted;
+    private $cookiesAccepted;
 
     /**
      * @var string
      */
-    public $email;
+    private $email;
 
     /**
      * @var string
      */
-    public $hostName;
+    private $hostName;
 
     /**
      * @var string
      */
-    public $ipAddress;
+    private $ipAddress;
 
     /**
      * @var string
      */
-    public $type;
+    private $type;
 
     public function toArray()
     {

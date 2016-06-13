@@ -4,8 +4,8 @@
   "description": "Braspag API PHP SDK",
   "keywords": [
     "payment",
-    "credit card",
-    "debit card",
+    "credit-card",
+    "debit-card",
     "boleto",
     "anti-fraud",
     "gateway",

@@ -32,57 +32,57 @@ class FraudAnalysisReplyData
     /**
      * @var int
      */
-    public $addressInfoCode;
+    private $addressInfoCode;
 
     /**
      * @var int
      */
-    public $factorCode;
+    private $factorCode;
 
     /**
      * @var double
      */
-    public $score;
+    private $score;
 
     /**
      * @var string
      */
-    public $binCountry;
+    private $binCountry;
 
     /**
      * @var string
      */
-    public $cardIssuer;
+    private $cardIssuer;
 
     /**
      * @var string
      */
-    public $cardScheme;
+    private $cardScheme;
 
     /**
      * @var string
      */
-    public $hostSeverity;
+    private $hostSeverity;
 
     /**
      * @var int
      */
-    public $internetInfoCode;
+    private $internetInfoCode;
 
     /**
      * @var string
      */
-    public $ipRoutingMethod;
+    private $ipRoutingMethod;
 
     /**
      * @var string
      */
-    public $scoreModelUsed;
+    private $scoreModelUsed;
 
     /**
      * @var string
      */
-    public $casePriority;
+    private $casePriority;
 
     public function toArray()
     {

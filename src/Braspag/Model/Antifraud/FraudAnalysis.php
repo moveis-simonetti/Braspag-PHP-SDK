@@ -88,7 +88,7 @@ class FraudAnalysis extends AbstractModel
     /**
      * @var FraudAnalysisReplyData
      */
-    public $replyData;
+    private $replyData;
 
     public function toArray()
     {

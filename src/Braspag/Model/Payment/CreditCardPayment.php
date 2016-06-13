@@ -32,37 +32,37 @@ class CreditCardPayment extends Payment
     /**
      * @var double
      */
-    protected $serviceTaxAmount;
+    private $serviceTaxAmount;
 
     /**
      * @var int
      */
-    protected $installments;
+    private $installments;
 
     /**
      * @var boolean
      */
-    protected $capture;
+    private $capture;
 
     /**
      * @var boolean
      */
-    protected $authenticate;
+    private $authenticate;
 
     /**
      * @var Card
      */
-    protected $creditCard;
+    private $creditCard;
 
     /**
      * @var string
      */
-    protected $softDescriptor;
+    private $softDescriptor;
 
     /**
      * @var string
      */
-    protected $eci;
+    private $eci;
 
     public function toArray()
     {
