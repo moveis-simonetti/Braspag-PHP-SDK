@@ -52,7 +52,7 @@ class Sale extends AbstractModel
             'merchantOrderId' => $this->getMerchantOrderId(),
             'customer' => $this->getCustomer()->toArray(),
             'payment' => $this->getPayment()->toArray(),
-            'messages' => $this->getMessages(),
+            'messages' => $this->getMessages(true),
         ];
     }
 

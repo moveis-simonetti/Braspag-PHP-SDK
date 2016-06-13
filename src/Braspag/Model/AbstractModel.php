@@ -58,8 +58,17 @@ abstract class AbstractModel
     /**
      * @return array
      */
-    public function getMessages()
+    public function getMessages($asArray = false)
     {
+        if ($asArray && \is_array($this->messages)) {
+            $messages = [];
+            foreach ($this->messages as $message) {
+                $message = ($message instanceof Message) ? $message->toArray() : $message;
+                \array_push($messages, $message);
+            }
+
+            return $messages;
+        }
         return $this->messages;
     }
 
