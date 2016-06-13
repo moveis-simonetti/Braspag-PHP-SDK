@@ -33,7 +33,21 @@ abstract class AbstractModel
 
     use Util;
 
+    /**
+     * @var array
+     */
     private $messages = [];
+
+    /**
+     * @var array
+     */
+    private $reasonCodes;
+
+    /**
+     * @var array
+     */
+    private $statusCodes;
+
 
     public function __construct($options = [])
     {
@@ -82,9 +96,66 @@ abstract class AbstractModel
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isValid()
     {
         return !\count($this->messages);
+    }
+
+    /**
+     * @return array
+     */
+    public function getReasonCodes()
+    {
+        return $this->reasonCodes;
+    }
+
+    /**
+     * @param array $reasonCodes
+     * @return AbstractModel
+     */
+    public function setReasonCodes($reasonCodes)
+    {
+        $this->reasonCodes = $reasonCodes;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStatusCodes()
+    {
+        return $this->statusCodes;
+    }
+
+    /**
+     * @param $statusCode
+     * @return mixed|null
+     */
+    public function getStatusMessage($statusCode)
+    {
+        return isset($this->statusCodes[$statusCode]) ? $this->statusCodes[$statusCode] : null;
+    }
+
+    /**
+     * @param $reasonCode
+     * @return mixed|null
+     */
+    public function getReason($reasonCode)
+    {
+        return isset($this->reasonCodes[$reasonCode]) ? $this->reasonCodes[$reasonCode] : null;
+    }
+
+    /**
+     * @param array $statusCodes
+     * @return AbstractModel
+     */
+    public function setStatusCodes($statusCodes)
+    {
+        $this->statusCodes = $statusCodes;
+        return $this;
     }
 
 

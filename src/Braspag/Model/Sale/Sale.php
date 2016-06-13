@@ -128,7 +128,7 @@ class Sale extends AbstractModel
         if ($this->getPayment()->getReasonCode() != 0) {
             $this->addMessage([
                 'code' => $this->getPayment()->getReasonCode(),
-                'message' => $this->getPayment()->getReasonMessage()
+                'message' => $this->getReason($this->getPayment()->getReasonCode())
             ]);
         }
 
