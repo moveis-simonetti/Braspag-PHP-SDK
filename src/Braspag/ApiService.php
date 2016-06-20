@@ -126,7 +126,6 @@ class ApiService
 
             $result = \json_decode($response->getBody()->getContents(), true);
 
-
             Hydrator::hydrate($captureResponse, $result);
 
         } catch (RequestException $e) {
@@ -145,26 +144,28 @@ class ApiService
     public function void($paymentId, $amount)
     {
 
-        $uri = $this->config['apiUri'] . \sprintf('/sales/%s/capture', $paymentId);
+        $uri = $this->config['apiUri'] . \sprintf('/sales/%s/void', $paymentId);
 
         if ($amount) {
             $uri .= sprintf('?amount=%f', (float)$amount);
         }
 
-        $response = $this->http()->request('PUT', $uri, [
-            'headers' => $this->headers
-        ]);
+        $voidResponse = new VoidResponse();
 
-        $result = $response->getBody()->getMetadata();
+        try {
+            $response = $this->http()->request('PUT', $uri, [
+                'headers' => $this->headers
+            ]);
 
-        if ($response->getStatusCode() === HttpStatus::Ok) {
-            $voidResponse = new VoidResponse($result);
-            return $voidResponse;
-        } elseif ($response->code == HttpStatus::BadRequest) {
-            return false;
+            $result = \json_decode($response->getBody()->getContents(), true);
+
+            Hydrator::hydrate($voidResponse, $result);
+
+        } catch (RequestException $e) {
+            $voidResponse->setMessages(\json_decode($e->getResponse()->getBody()->getContents(), true));
         }
 
-        return $response->getStatusCode();
+        return $voidResponse;
     }
 
     /**
@@ -197,6 +198,9 @@ class ApiService
 
     }
 
+    /**
+     * @return HttpClient
+     */
     protected function http()
     {
         if (!$this->http) {

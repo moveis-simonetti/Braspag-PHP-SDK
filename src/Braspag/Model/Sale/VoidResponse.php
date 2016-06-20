@@ -24,6 +24,8 @@
 
 namespace Braspag\Model\Sale;
 
+use Braspag\Model\AbstractModel;
+
 class VoidResponse extends AbstractModel
 {
 
@@ -41,6 +43,16 @@ class VoidResponse extends AbstractModel
      * @var string
      */
     private $reasonMessage;
+
+    /**
+     * @var string
+     */
+    private $providerReturnCode;
+
+    /**
+     * @var string
+     */
+    private $providerReturnMessage;
 
     /**
      * @var array
@@ -133,6 +145,42 @@ class VoidResponse extends AbstractModel
     public function setLinks($links)
     {
         $this->links = $this->parseLinks($links);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProviderReturnCode()
+    {
+        return $this->providerReturnCode;
+    }
+
+    /**
+     * @param string $providerReturnCode
+     * @return VoidResponse
+     */
+    public function setProviderReturnCode($providerReturnCode)
+    {
+        $this->providerReturnCode = $providerReturnCode;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProviderReturnMessage()
+    {
+        return $this->providerReturnMessage;
+    }
+
+    /**
+     * @param string $providerReturnMessage
+     * @return VoidResponse
+     */
+    public function setProviderReturnMessage($providerReturnMessage)
+    {
+        $this->providerReturnMessage = $providerReturnMessage;
         return $this;
     }
 
