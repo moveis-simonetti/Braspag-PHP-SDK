@@ -1,5 +1,7 @@
 <?php
 
+// https://github.com/JotJunior/Braspag-PHP-SDK#venda-simplificada
+
 $path = dirname(dirname(dirname(__FILE__)));
 $fileName = $path . "/vendor/autoload.php";
 //echo $fileName;
