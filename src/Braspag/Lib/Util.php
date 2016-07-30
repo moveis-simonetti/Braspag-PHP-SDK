@@ -84,6 +84,11 @@ trait Util
      */
     public function parseMessages($messages)
     {
+        
+        if(!is_array($messages)){
+            return;
+        }
+        
         $messageCollection = array();
 
         foreach ($messages as $message) {
