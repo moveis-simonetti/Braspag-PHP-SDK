@@ -175,27 +175,18 @@ class ApiService
      */
     public function get($paymentId)
     {
-
         try {
             $uri = $this->config['apiQueryUri'] . \sprintf('/sales/%s', $paymentId);
-
             $response = $this->http()->request('GET', $uri, [
                 'headers' => $this->headers
             ]);
-
-            $result = \json_decode($response->getBody()->getContents(), true);
-
-            if ($response->getStatusCode() === HttpStatus::Ok) {
-                $sale = new Sale($result);
-                return $sale;
-            } elseif ($response->getStatusCode() == HttpStatus::BadRequest) {
-                return BraspagUtils::getBadRequestErros($response->body);
-            }
-
-        } catch (\Exception $e) {
-
+            $result = \json_decode($response->getBody()->getContents(), JSON_OBJECT_AS_ARRAY);
+            $sale = new Sale($result);
+        } catch (RequestException $e) {
+            $sale = new Sale();
+            $sale->setMessages(\json_decode($e->getResponse()->getBody()->getContents(), true));
         }
-
+        return $sale;
     }
 
     /**
