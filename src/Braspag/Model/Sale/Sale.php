@@ -50,8 +50,8 @@ class Sale extends AbstractModel
     {
         return [
             'merchantOrderId' => $this->getMerchantOrderId(),
-            'customer' => $this->getCustomer()->toArray(),
-            'payment' => $this->getPayment()->toArray(),
+            'customer' => (($this->getCustomer()) ? $this->getCustomer()->toArray() : null),
+            'payment' => (($this->getPayment()) ? $this->getPayment()->toArray() : null),
             'messages' => $this->getMessages(true),
         ];
     }
@@ -125,7 +125,12 @@ class Sale extends AbstractModel
 
     public function isValid()
     {
-        if ($this->getPayment()->getReasonCode() != 0) {
+        if (!$this->getPayment()) {
+            $this->addMessage([
+                'code' => 7,
+                'message' => $this->getReason(7)
+            ]);
+        } elseif ($this->getPayment() && $this->getPayment()->getReasonCode() != 0) {
             $this->addMessage([
                 'code' => $this->getPayment()->getReasonCode(),
                 'message' => $this->getReason($this->getPayment()->getReasonCode())

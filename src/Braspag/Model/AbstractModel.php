@@ -63,8 +63,11 @@ abstract class AbstractModel
         Hydrator::hydrate($this, $config);
     }
 
-    public function addMessage($message)
+    public function addMessage(array $message)
     {
+        if (!is_array($this->messages)) {
+            $this->messages = [];
+        }
         \array_push($this->messages, new Message($message));
         return $this;
     }
