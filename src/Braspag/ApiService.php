@@ -157,7 +157,7 @@ class ApiService
                 'headers' => $this->headers
             ]);
 
-            $result = \json_decode($response->getBody()->getContents(), true);
+            $result = \json_decode($response->getBody()->getContents(), 1);
 
             Hydrator::hydrate($voidResponse, $result);
 
