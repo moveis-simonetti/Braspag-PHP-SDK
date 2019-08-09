@@ -30,7 +30,6 @@ use Braspag\Model\Sale\Message;
 
 abstract class AbstractModel
 {
-
     use Util;
 
     /**
@@ -48,14 +47,13 @@ abstract class AbstractModel
      */
     private $statusCodes;
 
-
     public function __construct($options = [])
     {
         $config = include __DIR__ . '/../../../config/braspag.config.php';
 
         try {
             if (is_array($options))
-                $config = \array_merge($config, $options);
+                $config = array_merge($config, $options);
         } catch (\Exception $e) {
             echo $e->getFile();
         }
@@ -68,7 +66,8 @@ abstract class AbstractModel
         if (!is_array($this->messages)) {
             $this->messages = [];
         }
-        \array_push($this->messages, new Message($message));
+        $this->messages[] = new Message($message);
+
         return $this;
     }
 
@@ -77,15 +76,15 @@ abstract class AbstractModel
      */
     public function getMessages($asArray = false)
     {
-        if ($asArray && \is_array($this->messages)) {
+        if ($asArray && is_array($this->messages)) {
             $messages = [];
             foreach ($this->messages as $message) {
-                $message = ($message instanceof Message) ? $message->toArray() : $message;
-                \array_push($messages, $message);
+                $messages[] = ($message instanceof Message) ? $message->toArray() : $message;
             }
 
             return $messages;
         }
+
         return $this->messages;
     }
 
@@ -104,7 +103,7 @@ abstract class AbstractModel
      */
     public function isValid()
     {
-        return !\count($this->messages);
+        return !count($this->messages);
     }
 
     /**
@@ -139,7 +138,7 @@ abstract class AbstractModel
      */
     public function getStatusMessage($statusCode)
     {
-        return isset($this->statusCodes[$statusCode]) ? $this->statusCodes[$statusCode] : null;
+        return $this->statusCodes[$statusCode] ?? null;
     }
 
     /**
@@ -148,7 +147,7 @@ abstract class AbstractModel
      */
     public function getReason($reasonCode)
     {
-        return isset($this->reasonCodes[$reasonCode]) ? $this->reasonCodes[$reasonCode] : null;
+        return $this->reasonCodes[$reasonCode] ?? null;
     }
 
     /**
@@ -160,6 +159,4 @@ abstract class AbstractModel
         $this->statusCodes = $statusCodes;
         return $this;
     }
-
-
 }

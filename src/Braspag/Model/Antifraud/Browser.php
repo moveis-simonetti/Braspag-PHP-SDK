@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class Browser
 {
-
     /**
      * @var boolean
      */
@@ -73,7 +72,7 @@ class Browser
     {
         Hydrator::hydrate($this, $options);
     }
-    
+
     /**
      * @return boolean
      */
@@ -163,6 +162,4 @@ class Browser
         $this->type = $type;
         return $this;
     }
-
-
 }

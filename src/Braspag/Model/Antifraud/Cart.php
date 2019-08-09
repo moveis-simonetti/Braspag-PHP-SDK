@@ -28,7 +28,6 @@ use Braspag\Model\AbstractModel;
 
 class Cart extends AbstractModel
 {
-
     /**
      * @var bool
      */
@@ -100,10 +99,12 @@ class Cart extends AbstractModel
         if ($asArray) {
             $items = [];
             foreach ($this->items as $item) {
-                \array_push($items, $item->toArray());
+                $items[] = $item->toArray();
             }
+
             return $items;
         }
+
         return $this->items;
     }
 
@@ -115,17 +116,15 @@ class Cart extends AbstractModel
     {
         $this->items = [];
         foreach ($items as $item) {
-
-            if (\is_object($item) && !($item instanceof CartItem)) {
+            if (is_object($item) && !($item instanceof CartItem)) {
                 throw new \InvalidArgumentException('Item must be a CartItem object.');
-            } else if (!\is_object($item)) {
+            } else if (!is_object($item)) {
                 $item = new CartItem($item);
             }
 
-            \array_push($this->items, $item);
+            $this->items[] = $item;
         }
+
         return $this;
     }
-
-
 }

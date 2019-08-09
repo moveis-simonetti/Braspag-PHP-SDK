@@ -28,7 +28,6 @@ use Braspag\Model\AbstractModel;
 
 class CaptureResponse extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -164,7 +163,6 @@ class CaptureResponse extends AbstractModel
         return $this;
     }
 
-
     /**
      * @return array
      */
@@ -173,10 +171,11 @@ class CaptureResponse extends AbstractModel
         if ($asArray) {
             $links = [];
             foreach ($this->links as $link) {
-                \array_push($links, $link->toArray());
+                $links[] = $link->toArray();
             }
             return $links;
         }
+
         return $this->links;
     }
 
@@ -189,6 +188,4 @@ class CaptureResponse extends AbstractModel
         $this->links = $this->parseLinks($links);
         return $this;
     }
-
-
 }

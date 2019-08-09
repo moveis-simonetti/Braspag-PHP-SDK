@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class Card
 {
-
     /**
      * @var string
      */
@@ -82,8 +81,7 @@ class Card
             'saveCard' => $this->isSaveCard(),
             'cardToken' => $this->getCardToken(),
             'cardAlias' => $this->getCardAlias(),
-            'brand' => $this->getBrand()
-
+            'brand' => $this->getBrand(),
         ];
     }
 
@@ -235,6 +233,4 @@ class Card
         $this->brand = $brand;
         return $this;
     }
-
-
 }

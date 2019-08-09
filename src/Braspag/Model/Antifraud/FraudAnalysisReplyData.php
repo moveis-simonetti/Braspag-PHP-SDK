@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class FraudAnalysisReplyData
 {
-
     /**
      * @var int
      */
@@ -98,7 +97,6 @@ class FraudAnalysisReplyData
             'ipRoutingMethod' => $this->getIpRoutingMethod(),
             'scoreModelUsed' => $this->getScoreModelUsed(),
             'casePriority' => $this->getCasePriority()
-
         ];
     }
 
@@ -308,6 +306,4 @@ class FraudAnalysisReplyData
         $this->casePriority = $casePriority;
         return $this;
     }
-
-
 }

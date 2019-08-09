@@ -58,18 +58,17 @@ class ApiService
      */
     function __construct($options = [])
     {
-
         $this->config = include __DIR__ . '/../../config/braspag.config.php';
 
-        if (\is_array($options)) {
-            $this->config = \array_merge($this->config, $options);
+        if (is_array($options)) {
+            $this->config = array_merge($this->config, $options);
         }
 
-        $this->headers = array(
+        $this->headers = [
             'MerchantId' => $this->config['merchantId'],
             'MerchantKey' => $this->config['merchantKey'],
-            'Content-Type' => 'application/json;charset=UTF-8'
-        );
+            'Content-Type' => 'application/json;charset=UTF-8',
+        ];
     }
 
     /**
@@ -83,11 +82,11 @@ class ApiService
 
         try {
             $response = $this->http()->request('POST', $this->config['apiUri'] . '/sales/', [
-                'body' => \json_encode($arrSale),
+                'body' => json_encode($arrSale),
                 'headers' => $this->headers
             ]);
 
-            $result = \json_decode($response->getBody()->getContents(), true);
+            $result = json_decode($response->getBody()->getContents(), true);
 
             Hydrator::hydrate($sale, $result);
 
@@ -96,7 +95,7 @@ class ApiService
                 return null;
             }
 
-            $sale->setMessages(\json_decode($e->getResponse()->getBody()->getContents()));
+            $sale->setMessages(json_decode($e->getResponse()->getBody()->getContents()));
         }
 
         return $sale;
@@ -110,14 +109,13 @@ class ApiService
      */
     public function capture($paymentId, CaptureRequest $captureRequest)
     {
-
         if (!$paymentId) {
             throw new \InvalidArgumentException('$paymentId é obrigatório');
         }
 
-        $uri = $this->config['apiUri'] . \sprintf('/sales/%s/capture', $paymentId);
+        $uri = $this->config['apiUri'] . sprintf('/sales/%s/capture', $paymentId);
         if ($captureRequest) {
-            $uri .= '?' . \http_build_query($captureRequest->toArray());
+            $uri .= '?' . http_build_query($captureRequest->toArray());
         }
 
         $captureResponse = new CaptureResponse();
@@ -127,12 +125,12 @@ class ApiService
                 'headers' => $this->headers
             ]);
 
-            $result = \json_decode($response->getBody()->getContents(), true);
+            $result = json_decode($response->getBody()->getContents(), true);
 
             Hydrator::hydrate($captureResponse, $result);
 
         } catch (RequestException $e) {
-            $captureResponse->setMessages(\json_decode($e->getResponse()->getBody()->getContents(), true));
+            $captureResponse->setMessages(json_decode($e->getResponse()->getBody()->getContents(), true));
         }
 
         return $captureResponse;
@@ -146,8 +144,7 @@ class ApiService
      */
     public function void($paymentId, $amount)
     {
-
-        $uri = $this->config['apiUri'] . \sprintf('/sales/%s/void', $paymentId);
+        $uri = $this->config['apiUri'] . sprintf('/sales/%s/void', $paymentId);
 
         if ($amount) {
             $uri .= sprintf('?amount=%f', (float)$amount);
@@ -160,12 +157,12 @@ class ApiService
                 'headers' => $this->headers
             ]);
 
-            $result = \json_decode($response->getBody()->getContents(), 1);
+            $result = json_decode($response->getBody()->getContents(), 1);
 
             Hydrator::hydrate($voidResponse, $result);
 
         } catch (RequestException $e) {
-            $voidResponse->setMessages(\json_decode($e->getResponse()->getBody()->getContents(), true));
+            $voidResponse->setMessages(json_decode($e->getResponse()->getBody()->getContents(), true));
         }
 
         return $voidResponse;
@@ -179,16 +176,18 @@ class ApiService
     public function get($paymentId)
     {
         try {
-            $uri = $this->config['apiQueryUri'] . \sprintf('/sales/%s', $paymentId);
+            $uri = $this->config['apiQueryUri'] . sprintf('/sales/%s', $paymentId);
             $response = $this->http()->request('GET', $uri, [
                 'headers' => $this->headers
             ]);
-            $result = \json_decode($response->getBody()->getContents(), JSON_OBJECT_AS_ARRAY);
+
+            $result = json_decode($response->getBody()->getContents(), JSON_OBJECT_AS_ARRAY);
             $sale = new Sale($result);
         } catch (RequestException $e) {
             $sale = new Sale();
-            $sale->setMessages(\json_decode($e->getResponse()->getBody()->getContents(), true));
+            $sale->setMessages(json_decode($e->getResponse()->getBody()->getContents(), true));
         }
+
         return $sale;
     }
 
@@ -200,8 +199,7 @@ class ApiService
         if (!$this->http) {
             $this->http = new HttpClient();
         }
+
         return $this->http;
     }
-
-
 }

@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class ExtraData
 {
-
     /**
      * @var string
      */
@@ -111,6 +110,4 @@ class ExtraData
         $this->id = $id;
         return $this;
     }
-    
-
 }

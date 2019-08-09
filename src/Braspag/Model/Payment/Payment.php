@@ -28,7 +28,6 @@ use Braspag\Model\AbstractModel;
 
 class Payment extends AbstractModel
 {
-
     const InterestByMerchant = 'ByMerchant';
     const InterestByIssuer = 'ByIssuer';
 
@@ -446,10 +445,6 @@ class Payment extends AbstractModel
      */
     public function setReasonCode($reasonCode)
     {
-        if ($reasonCode != 0) {
-
-        }
-
         $this->reasonCode = $reasonCode;
         return $this;
     }
@@ -531,15 +526,15 @@ class Payment extends AbstractModel
      */
     public function getLinks($asArray = false)
     {
-        if ($asArray && \is_array($this->links)) {
+        if ($asArray && is_array($this->links)) {
             $links = [];
             foreach ($this->links as $link) {
-                $link = ($link instanceof \Braspag\Model\Link) ? $link->toArray() : $link;
-                \array_push($links, $link);
+                $links[] = ($link instanceof \Braspag\Model\Link) ? $link->toArray() : $link;
             }
 
             return $links;
         }
+
         return $this->links;
     }
 
@@ -569,11 +564,12 @@ class Payment extends AbstractModel
     {
         $this->recurrentPayment = $recurrentPayment;
 
-        if (\is_object($recurrentPayment) && !($recurrentPayment instanceof RecurrentPayment)) {
+        if (is_object($recurrentPayment) && !($recurrentPayment instanceof RecurrentPayment)) {
             throw new \InvalidArgumentException('Item must be a recurrentPayment object.');
-        } else if (\is_array($recurrentPayment)) {
+        } else if (is_array($recurrentPayment)) {
             $this->recurrentPayment = new RecurrentPayment($recurrentPayment);
         }
+
         return $this;
     }
 
@@ -672,13 +668,15 @@ class Payment extends AbstractModel
      */
     public function getExtraDataCollection($asArray = false)
     {
-        if ($asArray && \is_array($this->extraDataCollection)) {
+        if ($asArray && is_array($this->extraDataCollection)) {
             $extraData = [];
             foreach ($this->extraDataCollection as $link) {
-                \array_push($extraData, $link->toArray());
+                $extraData[] = $link->toArray();
             }
+
             return $extraData;
         }
+
         return $this->extraDataCollection;
     }
 
@@ -690,12 +688,12 @@ class Payment extends AbstractModel
     {
         $extraDataCollection = [];
 
-        if (!\is_array($extraData)) {
+        if (!is_array($extraData)) {
             return [];
         }
 
         foreach ($extraData as $data) {
-            \array_push($extraDataCollection, new ExtraData($data));
+            $extraDataCollection[] = new ExtraData($data);
         }
 
         $this->extraDataCollection = $extraDataCollection;
@@ -719,5 +717,4 @@ class Payment extends AbstractModel
         $this->interest = $interest;
         return $this;
     }
-
 }

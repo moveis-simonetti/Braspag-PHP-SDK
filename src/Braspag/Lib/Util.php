@@ -24,7 +24,6 @@
 
 namespace Braspag\Lib;
 
-use GuzzleHttp\Client as HttpClient;
 use Braspag\Model\Payment\Link;
 use Braspag\Model\Sale\Message;
 
@@ -33,14 +32,17 @@ trait Util
     static protected function capitalizeRequestData($data)
     {
         foreach ($data as $key => &$value) {
-            if (\is_array($value)) {
+            if (is_array($value)) {
                 $value = self::capitalizeRequestData($value);
             }
-            $data[\ucfirst($key)] = $value;
+
+            $data[ucfirst($key)] = $value;
+
             if (ctype_lower($key{0})) {
                 unset($data[$key]);
             }
         }
+
         return $data;
     }
 
@@ -49,17 +51,15 @@ trait Util
         if (!$data) {
             return null;
         }
+
         return new Link((array)$data);
     }
 
-
     public function parseLinks($source)
     {
-        $linkCollection = array();
-
+        $linkCollection = [];
         foreach ($source as $l) {
-            $link = $this->addLink($l);
-            \array_push($linkCollection, $link);
+            $linkCollection[] = $this->addLink($l);
         }
 
         return $linkCollection;
@@ -74,9 +74,9 @@ trait Util
         if (!$data) {
             return null;
         }
+
         return new Message((array)$data);
     }
-
 
     /**
      * @param $messages
@@ -84,18 +84,16 @@ trait Util
      */
     public function parseMessages($messages)
     {
-        
-        if(!is_array($messages)){
+        if (!is_array($messages)) {
             return;
         }
-        
-        $messageCollection = array();
+
+        $messageCollection = [];
 
         foreach ($messages as $message) {
-            \array_push($messageCollection, $this->setMessage((array)$message));
+            $messageCollection[] = $this->setMessage((array) $message);
         }
 
         return $messageCollection;
     }
-
 }

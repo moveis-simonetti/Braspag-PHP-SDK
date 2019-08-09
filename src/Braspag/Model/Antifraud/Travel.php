@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class Travel
 {
-
     /**
      * @var \DateTime
      */
@@ -125,10 +124,12 @@ class Travel
         if ($asArray) {
             $legs = [];
             foreach ($this->legs as $leg) {
-                \array_push($legs, $leg->toArray());
+                $legs[] = $leg->toArray();
             }
+
             return $legs;
         }
+
         return $this->legs;
     }
 
@@ -140,17 +141,15 @@ class Travel
     {
         $this->legs = [];
         foreach ($legs as $leg) {
-
-            if (\is_object($leg) && !($leg instanceof Leg)) {
+            if (is_object($leg) && !($leg instanceof Leg)) {
                 throw new \InvalidArgumentException('Leg must be a Leg object.');
-            } else if (!\is_object($leg)) {
+            } else if (!is_object($leg)) {
                 $leg = new Leg($leg);
             }
 
-            \array_push($this->legs, $leg);
+            $this->legs[] = $leg;
         }
+
         return $this;
     }
-
-
 }

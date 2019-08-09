@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class Leg
 {
-
     /**
      * @var string
      */
@@ -87,5 +86,4 @@ class Leg
         $this->origin = $origin;
         return $this;
     }
-
 }

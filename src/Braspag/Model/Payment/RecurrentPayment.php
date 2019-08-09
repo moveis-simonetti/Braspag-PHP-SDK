@@ -28,7 +28,6 @@ use Braspag\Model\AbstractModel;
 
 class RecurrentPayment extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -219,15 +218,15 @@ class RecurrentPayment extends AbstractModel
      */
     public function getLinks($asArray = false)
     {
-        if ($asArray && \is_array($this->links)) {
+        if ($asArray && is_array($this->links)) {
             $links = [];
             foreach ($this->links as $link) {
-                $link = ($link instanceof Link) ? $link->toArray() : $link;
-                \array_push($links, $link);
+                $links[] = ($link instanceof Link) ? $link->toArray() : $link;
             }
 
             return $links;
         }
+
         return $this->links;
     }
 
@@ -258,6 +257,4 @@ class RecurrentPayment extends AbstractModel
         $this->authorizeNow = $authorizeNow;
         return $this;
     }
-
-
 }
