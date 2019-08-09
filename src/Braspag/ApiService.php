@@ -24,15 +24,14 @@
 
 namespace Braspag;
 
-use Braspag\Model\Sale\Sale;
-use Braspag\Model\Sale\CaptureRequest;
-use Braspag\Model\Sale\CaptureResponse;
-use Braspag\Model\Sale\VoidResponse;
-use Braspag\Model\HttpStatus;
 use Braspag\Lib\Hydrator;
 use Braspag\Lib\Util;
-use GuzzleHttp\Exception\RequestException;
+use Braspag\Model\Sale\CaptureRequest;
+use Braspag\Model\Sale\CaptureResponse;
+use Braspag\Model\Sale\Sale;
+use Braspag\Model\Sale\VoidResponse;
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\RequestException;
 
 class ApiService
 {
@@ -93,6 +92,10 @@ class ApiService
             Hydrator::hydrate($sale, $result);
 
         } catch (RequestException $e) {
+            if ($e->getCode() == 401) {
+                return null;
+            }
+
             $sale->setMessages(\json_decode($e->getResponse()->getBody()->getContents()));
         }
 
