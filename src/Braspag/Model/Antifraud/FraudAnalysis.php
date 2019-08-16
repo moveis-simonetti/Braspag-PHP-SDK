@@ -29,7 +29,6 @@ use Braspag\Model\Payment\ExtraData;
 
 class FraudAnalysis extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -229,11 +228,12 @@ class FraudAnalysis extends AbstractModel
     {
         $this->browser = $browser;
 
-        if (\is_object($browser) && !($browser instanceof Browser)) {
+        if (is_object($browser) && !($browser instanceof Browser)) {
             throw new \InvalidArgumentException('Item must be a Browser object.');
-        } else if (\is_array($browser)) {
+        } else if (is_array($browser)) {
             $this->browser = new Browser($browser);
         }
+
         return $this;
     }
 
@@ -253,11 +253,12 @@ class FraudAnalysis extends AbstractModel
     {
         $this->cart = $cart;
 
-        if (\is_object($cart) && !($cart instanceof Cart)) {
+        if (is_object($cart) && !($cart instanceof Cart)) {
             throw new \InvalidArgumentException('Item must be a Cart object.');
-        } else if (\is_array($cart)) {
+        } else if (is_array($cart)) {
             $this->cart = new Cart($cart);
         }
+
         return $this;
     }
 
@@ -277,11 +278,12 @@ class FraudAnalysis extends AbstractModel
     {
         $this->shipping = $shipping;
 
-        if (\is_object($shipping) && !($shipping instanceof Shipping)) {
+        if (is_object($shipping) && !($shipping instanceof Shipping)) {
             throw new \InvalidArgumentException('Item must be a Shipping object.');
-        } else if (\is_array($shipping)) {
+        } else if (is_array($shipping)) {
             $this->shipping = new Shipping($shipping);
         }
+
         return $this;
     }
 
@@ -301,11 +303,12 @@ class FraudAnalysis extends AbstractModel
     {
         $this->travel = $travel;
 
-        if (\is_object($travel) && !($travel instanceof Travel)) {
+        if (is_object($travel) && !($travel instanceof Travel)) {
             throw new \InvalidArgumentException('Item must be a Travel object.');
-        } else if (\is_array($travel)) {
+        } else if (is_array($travel)) {
             $this->travel = new Travel($travel);
         }
+
         return $this;
     }
 
@@ -325,22 +328,23 @@ class FraudAnalysis extends AbstractModel
     {
         $this->replyData = $replyData;
 
-        if (\is_object($replyData) && !($replyData instanceof FraudAnalysisReplyData)) {
+        if (is_object($replyData) && !($replyData instanceof FraudAnalysisReplyData)) {
             throw new \InvalidArgumentException('Item must be a FraudAnalysisReplyData object.');
-        } else if (\is_array($replyData)) {
+        } else if (is_array($replyData)) {
             $this->replyData = new FraudAnalysisReplyData($replyData);
         }
+
         return $this;
     }
 
     public function addMerchantDefinedFields($extraData)
     {
-        if (\is_object($extraData) && ($extraData instanceof ExtraData)) {
-            \array_push($this->merchantDefinedFields, $extraData);
+        if (is_object($extraData) && ($extraData instanceof ExtraData)) {
+            $this->merchantDefinedFields[] = $extraData;
         } else if (!($extraData instanceof ExtraData)) {
             throw new \InvalidArgumentException('Item must be a ExtraData object.');
         } else {
-            \array_push($this->merchantDefinedFields, new ExtraData($extraData));
+            $this->merchantDefinedFields[] = new ExtraData($extraData);
         }
     }
 
@@ -360,12 +364,12 @@ class FraudAnalysis extends AbstractModel
     {
         $this->merchantDefinedFields = $merchantDefinedFields;
 
-        if (\is_object($merchantDefinedFields) && !($merchantDefinedFields instanceof ExtraData)) {
+        if (is_object($merchantDefinedFields) && !($merchantDefinedFields instanceof ExtraData)) {
             throw new \InvalidArgumentException('Item must be a ExtraData object.');
-        } else if (\is_array($merchantDefinedFields)) {
+        } else if (is_array($merchantDefinedFields)) {
             $this->merchantDefinedFields = new ExtraData($merchantDefinedFields);
         }
+
         return $this;
     }
-
 }

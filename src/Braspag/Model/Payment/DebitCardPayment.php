@@ -109,11 +109,12 @@ class DebitCardPayment extends Payment
     {
         $this->debitCard = $debitCard;
 
-        if (\is_object($debitCard) && !($debitCard instanceof Card)) {
+        if (is_object($debitCard) && !($debitCard instanceof Card)) {
             throw new \InvalidArgumentException('Item must be a debitCard object.');
-        } else if (\is_array($debitCard)) {
+        } else if (is_array($debitCard)) {
             $this->debitCard = new Card($debitCard);
         }
+
         return $this;
     }
 
@@ -188,5 +189,4 @@ class DebitCardPayment extends Payment
         $this->capture = $capture;
         return $this;
     }
-
 }

@@ -28,7 +28,6 @@ use Braspag\Model\AbstractModel;
 
 class CartItem extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -116,7 +115,6 @@ class CartItem extends AbstractModel
             'type' => $this->getType(),
             'velocityHedge' => $this->getVelocityHedge(),
             'passenger' => ($this->getPassenger()) ? $this->getPassenger()->toArray() : null
-
         ];
     }
 
@@ -370,13 +368,12 @@ class CartItem extends AbstractModel
     {
         $this->passenger = $passenger;
 
-        if (\is_object($passenger) && !($passenger instanceof Passenger)) {
+        if (is_object($passenger) && !($passenger instanceof Passenger)) {
             throw new \InvalidArgumentException('Item must be a Passenger object.');
-        } else if (\is_array($passenger)) {
+        } else if (is_array($passenger)) {
             $this->passenger = new Passenger($passenger);
         }
+
         return $this;
     }
-
-
 }

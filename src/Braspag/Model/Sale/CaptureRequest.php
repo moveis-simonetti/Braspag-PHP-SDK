@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class CaptureRequest
 {
-
     /**
      * @var int
      */
@@ -66,7 +65,7 @@ class CaptureRequest
      */
     public function setAmount($amount)
     {
-        $this->amount = (int)\number_format($amount, 2, '', '');
+        $this->amount = (int) number_format($amount, 2, '', '');
         return $this;
     }
 
@@ -84,9 +83,7 @@ class CaptureRequest
      */
     public function setServiceTaxAmount($serviceTaxAmount)
     {
-        $this->serviceTaxAmount = (int)\number_format($serviceTaxAmount, 2, '', '');
+        $this->serviceTaxAmount = (int) number_format($serviceTaxAmount, 2, '', '');
         return $this;
     }
-
-
 }

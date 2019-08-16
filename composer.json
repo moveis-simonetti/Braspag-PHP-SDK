@@ -21,10 +21,14 @@
     {
       "name": "João G. Zanon Jr. ",
       "email": "joao.zanon@triallo.com.br"
+    },
+    {
+      "name": "Ânderson Zorrer Dalmina",
+      "email": "andersondalmina@coderockr.com"
     }
   ],
   "require": {
-    "php": ">=5.5.0",
+    "php": ">=7.2",
     "guzzlehttp/guzzle": "~6.0"
   },
   "autoload": {

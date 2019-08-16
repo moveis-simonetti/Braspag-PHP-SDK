@@ -30,7 +30,6 @@ use Braspag\Model\Payment\Payment;
 
 class Sale extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -90,11 +89,12 @@ class Sale extends AbstractModel
     {
         $this->customer = $customer;
 
-        if (\is_object($customer) && !($customer instanceof Customer)) {
+        if (is_object($customer) && !($customer instanceof Customer)) {
             throw new \InvalidArgumentException('Item must be a Customer object.');
-        } else if (\is_array($customer)) {
+        } else if (is_array($customer)) {
             $this->customer = new Customer($customer);
         }
+
         return $this;
     }
 
@@ -114,12 +114,13 @@ class Sale extends AbstractModel
     {
         $this->payment = $payment;
 
-        if (\is_object($payment) && !($payment instanceof Payment)) {
+        if (is_object($payment) && !($payment instanceof Payment)) {
             throw new \InvalidArgumentException('Item must be a Payment object.');
-        } else if (\is_array($payment)) {
+        } else if (is_array($payment)) {
             $class = 'Braspag\\Model\\Payment\\' . array_change_key_case($payment, CASE_LOWER)['type'] . 'Payment';
             $this->payment = new $class($payment);
         }
+
         return $this;
     }
 
@@ -139,5 +140,4 @@ class Sale extends AbstractModel
 
         return parent::isValid();
     }
-
 }

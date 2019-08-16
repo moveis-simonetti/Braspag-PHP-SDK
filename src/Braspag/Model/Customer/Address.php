@@ -28,7 +28,6 @@ use Braspag\Model\AbstractModel;
 
 class Address extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -82,7 +81,6 @@ class Address extends AbstractModel
             'district' => $this->getDistrict()
         ];
     }
-
 
     /**
      * @return string
@@ -227,5 +225,4 @@ class Address extends AbstractModel
         $this->district = $district;
         return $this;
     }
-
 }

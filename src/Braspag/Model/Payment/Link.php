@@ -110,6 +110,4 @@ class Link
         $this->href = $href;
         return $this;
     }
-
-
 }

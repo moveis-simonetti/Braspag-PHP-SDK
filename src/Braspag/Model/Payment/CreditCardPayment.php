@@ -28,7 +28,6 @@ use Braspag\Model\Antifraud\FraudAnalysis;
 
 class CreditCardPayment extends Payment
 {
-
     /**
      * @var double
      */
@@ -64,9 +63,14 @@ class CreditCardPayment extends Payment
      */
     private $eci;
 
+    /**
+     * @var FraudAnalysis
+     */
+    protected $fraudAnalysis;
+
     public function toArray()
     {
-        return \array_merge_recursive(parent::toArray(), [
+        return array_merge_recursive(parent::toArray(), [
             'serviceTaxAmount' => $this->getServiceTaxAmount(),
             'installments' => $this->getInstallments(),
             'interest' => $this->getInterest(),
@@ -78,11 +82,6 @@ class CreditCardPayment extends Payment
             'fraudAnalysis' => ($this->getFraudAnalysis()) ? $this->getFraudAnalysis()->toArray() : null
         ]);
     }
-
-    /**
-     * @var FraudAnalysis
-     */
-    protected $fraudAnalysis;
 
     public function __construct($options = [])
     {
@@ -178,11 +177,12 @@ class CreditCardPayment extends Payment
     {
         $this->creditCard = $creditCard;
 
-        if (\is_object($creditCard) && !($creditCard instanceof Card)) {
+        if (is_object($creditCard) && !($creditCard instanceof Card)) {
             throw new \InvalidArgumentException('Item must be a creditCard object.');
-        } else if (\is_array($creditCard)) {
+        } else if (is_array($creditCard)) {
             $this->creditCard = new Card($creditCard);
         }
+
         return $this;
     }
 
@@ -238,13 +238,12 @@ class CreditCardPayment extends Payment
     {
         $this->fraudAnalysis = $fraudAnalysis;
 
-        if (\is_object($fraudAnalysis) && !($fraudAnalysis instanceof FraudAnalysis)) {
+        if (is_object($fraudAnalysis) && !($fraudAnalysis instanceof FraudAnalysis)) {
             throw new \InvalidArgumentException('Item must be a FraudAnalysis object.');
-        } else if (\is_array($fraudAnalysis)) {
+        } else if (is_array($fraudAnalysis)) {
             $this->fraudAnalysis = new FraudAnalysis($fraudAnalysis);
         }
+
         return $this;
     }
-
-
 }

@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class Customer
 {
-
     /**
      * @var string
      */
@@ -192,11 +191,12 @@ class Customer
     {
         $this->address = $address;
 
-        if (\is_object($address) && !($address instanceof Address)) {
+        if (is_object($address) && !($address instanceof Address)) {
             throw new \InvalidArgumentException('Item must be an Address object.');
-        } else if (\is_array($address)) {
+        } else if (is_array($address)) {
             $this->address = new Address($address);
         }
+
         return $this;
     }
 
@@ -216,13 +216,12 @@ class Customer
     {
         $this->deliveryAddress = $deliveryAddress;
 
-        if (\is_object($deliveryAddress) && !($deliveryAddress instanceof Address)) {
+        if (is_object($deliveryAddress) && !($deliveryAddress instanceof Address)) {
             throw new \InvalidArgumentException('Item must be an DeliveryAddress object.');
-        } else if (\is_array($deliveryAddress)) {
+        } else if (is_array($deliveryAddress)) {
             $this->deliveryAddress = new Address($deliveryAddress);
         }
+
         return $this;
     }
-
-
 }

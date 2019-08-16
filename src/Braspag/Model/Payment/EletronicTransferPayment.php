@@ -26,7 +26,6 @@ namespace Braspag\Model\Payment;
 
 class EletronicTransferPayment extends Payment
 {
-
     /**
      * @var string
      */
@@ -62,6 +61,4 @@ class EletronicTransferPayment extends Payment
         $this->url = $url;
         return $this;
     }
-
-
 }

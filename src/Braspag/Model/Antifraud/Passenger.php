@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class Passenger
 {
-
     /**
      * @var string
      */
@@ -183,6 +182,4 @@ class Passenger
         $this->status = $status;
         return $this;
     }
-
-
 }

@@ -28,7 +28,6 @@ use Braspag\Model\AbstractModel;
 
 class VoidResponse extends AbstractModel
 {
-
     /**
      * @var string
      */
@@ -132,8 +131,9 @@ class VoidResponse extends AbstractModel
         if ($asArray && $this->links) {
             $links = [];
             foreach ($this->links as $link) {
-                \array_push($links, $link->toArray());
+                $links[] = $link->toArray();
             }
+
             return $links;
         }
         return $this->links;
@@ -184,6 +184,4 @@ class VoidResponse extends AbstractModel
         $this->providerReturnMessage = $providerReturnMessage;
         return $this;
     }
-
-
 }

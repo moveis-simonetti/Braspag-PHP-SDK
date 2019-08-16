@@ -28,7 +28,6 @@ use Braspag\Lib\Hydrator;
 
 class Shipping
 {
-
     /**
      * @var string
      */
@@ -115,5 +114,4 @@ class Shipping
         $this->phone = $phone;
         return $this;
     }
-
 }

@@ -51,7 +51,6 @@ class Message
         Hydrator::hydrate($this, $options);
     }
 
-
     /**
      * @return string
      */
@@ -87,6 +86,4 @@ class Message
         $this->code = $code;
         return $this;
     }
-
-
 }
