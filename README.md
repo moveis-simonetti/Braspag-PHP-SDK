@@ -15,21 +15,21 @@ porém, como as mudanças foram muito significativas, resolvi criar um
 novo projeto. 
 
 ## Instalação
-Adicione "jotjunior/braspag-php-sdk": "dev-master" no seu composer.json.
+Adicione "moveis-simonetti/braspag-php-sdk": "dev-master" no seu composer.json.
 ```json
 {
   "require": {
     "php": ">=5.5",
-    "jotjunior/braspag-php-sdk": "dev-master"
+    "moveis-simonetti/braspag-php-sdk": "dev-master"
   }
 }
 ```
 
 ## Configuração
-Por padrão, o arquivo de configuração da aplicação fica no diretório 
-config, na raiz do repositório. 
+Por padrão, o arquivo de configuração da aplicação fica no diretório
+config, na raiz do repositório.
 
-Para reescrever qualquer atributo da configuração, basta injetar os 
+Para reescrever qualquer atributo da configuração, basta injetar os
 dados, como um Array, no momento de instanciar o objeto.
 
 Exemplo:
