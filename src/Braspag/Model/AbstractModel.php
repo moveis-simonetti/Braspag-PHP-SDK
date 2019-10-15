@@ -103,11 +103,19 @@ abstract class AbstractModel
      */
     public function isValid()
     {
-        if (is_array($this->messages) || $this->messages instanceof \Countable) {
-            return !count($this->messages);
+
+        if ($this->messages === null) {
+            $this->messages = [];
         }
 
-        return false;
+        if (!is_array($this->messages) && !($this->messages instanceof \Countable)) {
+            throw new \InvalidArgumentException(
+                'Messages cannot be a ' . 
+                    (is_object($this->messages) ? get_type($this->messages) : get_class($this->messages))
+            );
+        }
+
+        return count($this->messages) === 0;
     }
 
     /**
