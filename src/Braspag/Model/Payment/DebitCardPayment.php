@@ -58,15 +58,16 @@ class DebitCardPayment extends Payment
 
     public function toArray()
     {
-        return [
+        return array_merge_recursive(parent::toArray(), [
             'serviceTaxAmount' => $this->getServiceTaxAmount(),
+            'installments' => 1,
             'debitCard' => $this->getDebitCard()->toArray(),
             'softDescriptor' => $this->getSoftDescriptor(),
             'eci' => $this->getEci(),
             'authenticate' => $this->isAuthenticate(),
             'capture' => $this->isCapture(),
-            'interest' => $this->getInterest()
-        ];
+            'interest' => $this->getInterest(),
+        ]);
     }
 
     public function __construct($options = [])
