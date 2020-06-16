@@ -98,8 +98,8 @@ class FraudAnalysis extends AbstractModel
             'captureOnLowRisk' => $this->isCaptureOnLowRisk(),
             'voidOnHighRisk' => $this->isVoidOnHighRisk(),
             'status' => $this->getStatus(),
-            'browser' => $this->getBrowser()->toArray(),
-            'cart' => $this->getCart()->toArray(),
+            'browser' => (($this->getBrowser()) ? $this->getBrowser()->toArray() : null),
+            'cart' => (($this->getCart()) ? $this->getCart()->toArray() : null),
             'replyData' => ($this->getReplyData()) ? $this->getReplyData()->toArray() : null,
         ];
     }
