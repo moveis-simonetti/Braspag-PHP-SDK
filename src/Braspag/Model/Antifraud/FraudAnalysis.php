@@ -32,6 +32,11 @@ class FraudAnalysis extends AbstractModel
     /**
      * @var string
      */
+    private $id;
+    
+    /**
+     * @var string
+     */
     private $sequence;
 
     /**
@@ -92,6 +97,7 @@ class FraudAnalysis extends AbstractModel
     public function toArray()
     {
         return [
+            'id' => $this->getId(),
             'sequence' => $this->getSequence(),
             'sequenceCriteria' => $this->getSequenceCriteria(),
             'fingerPrintId' => $this->getFingerPrintId(),
@@ -102,6 +108,24 @@ class FraudAnalysis extends AbstractModel
             'cart' => (($this->getCart()) ? $this->getCart()->toArray() : null),
             'replyData' => ($this->getReplyData()) ? $this->getReplyData()->toArray() : null,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return FraudAnalysis
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     /**
