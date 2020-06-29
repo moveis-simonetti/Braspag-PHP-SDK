@@ -33,7 +33,7 @@ class FraudAnalysis extends AbstractModel
      * @var string
      */
     private $id;
-    
+
     /**
      * @var string
      */
