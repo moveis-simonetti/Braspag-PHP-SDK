@@ -85,6 +85,10 @@ class ApiService
             $result = $this->makeRequest('POST', $this->config['apiUri'] . '/sales/', $arrSale);
             Hydrator::hydrate($sale, $result);
         } catch (RequestException $e) {
+            if ($e->getResponse() === null) {
+                throw $e;
+            }
+
             $sale->setMessages(json_decode($e->getResponse()->getBody()->getContents()));
         }
 
@@ -113,6 +117,10 @@ class ApiService
             $result = $this->makeRequest('PUT', $uri);
             Hydrator::hydrate($captureResponse, $result);
         } catch (RequestException $e) {
+            if ($e->getResponse() === null) {
+                throw $e;
+            }
+
             $captureResponse->setMessages(json_decode($e->getResponse()->getBody()->getContents(), true));
         }
 
@@ -138,6 +146,10 @@ class ApiService
             $result = $this->makeRequest('PUT', $uri);
             Hydrator::hydrate($voidResponse, $result);
         } catch (RequestException $e) {
+            if ($e->getResponse() === null) {
+                throw $e;
+            }
+
             $voidResponse->setMessages(json_decode($e->getResponse()->getBody()->getContents(), true));
         }
 
@@ -158,6 +170,10 @@ class ApiService
 
             $sale = new Sale($result);
         } catch (RequestException $e) {
+            if ($e->getResponse() === null) {
+                throw $e;
+            }
+
             $sale = new Sale();
             $sale->setMessages(json_decode($e->getResponse()->getBody()->getContents(), true));
         }
