@@ -94,6 +94,16 @@ class FraudAnalysis extends AbstractModel
      */
     private $replyData;
 
+    /**
+     * @var string|null
+     */
+    private $provider;
+
+    /**
+     * @var int|null
+     */
+    private $totalOrderAmount;
+
     public function toArray()
     {
         return [
@@ -107,6 +117,15 @@ class FraudAnalysis extends AbstractModel
             'browser' => (($this->getBrowser()) ? $this->getBrowser()->toArray() : null),
             'cart' => (($this->getCart()) ? $this->getCart()->toArray() : null),
             'replyData' => ($this->getReplyData()) ? $this->getReplyData()->toArray() : null,
+            'provider' => $this->getProvider(),
+            'totalOrderAmount' => $this->getTotalOrderAmount(),
+            'shipping' => $this->getShipping() === null ? null : $this->getShipping()->toArray(),
+            'merchantDefinedFields' => array_map(
+                function (ExtraData $data) {
+                    return $data->toArray();
+                },
+                $this->getMerchantDefinedFields() ?? []
+            ),
         ];
     }
 
@@ -388,12 +407,56 @@ class FraudAnalysis extends AbstractModel
     {
         $this->merchantDefinedFields = $merchantDefinedFields;
 
-        if (is_object($merchantDefinedFields) && !($merchantDefinedFields instanceof ExtraData)) {
-            throw new \InvalidArgumentException('Item must be a ExtraData object.');
-        } else if (is_array($merchantDefinedFields)) {
-            $this->merchantDefinedFields = new ExtraData($merchantDefinedFields);
+        $fnc = function ($extraData) {
+            if (is_object($extraData) && !($extraData instanceof ExtraData)) {
+                throw new \InvalidArgumentException('Item must be a ExtraData object.');
+            }
+
+            return is_object($extraData) ? $extraData : new ExtraData($extraData);
+        };
+
+        if (is_array($merchantDefinedFields)) {
+            $this->merchantDefinedFields = array_map($fnc, $merchantDefinedFields);
+        } else {
+            $this->merchantDefinedFields = [$fnc($merchantDefinedFields)];
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $provider
+     * @return self
+     */
+    public function setProvider($provider)
+    {
+        $this->provider = $provider;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
+     * @param int|null $totalOrderAmount
+     * @return self
+     */
+    public function setTotalOrderAmount($totalOrderAmount)
+    {
+        $this->totalOrderAmount = $totalOrderAmount;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTotalOrderAmount()
+    {
+        return $this->totalOrderAmount;
     }
 }
