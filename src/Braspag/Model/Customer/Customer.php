@@ -63,6 +63,11 @@ class Customer
      */
     private $deliveryAddress;
 
+    /**
+     * @var string
+     */
+    private $phone;
+
     public function toArray()
     {
         return [
@@ -72,7 +77,8 @@ class Customer
             'email' => $this->getEmail(),
             'birthDate' => ($this->getBirthDate()) ? $this->getBirthDate()->format('Y-m-d') : null,
             'address' => ($this->getAddress()) ? $this->getAddress()->toArray() : null,
-            'deliveryAddress' => ($this->getDeliveryAddress()) ? $this->getDeliveryAddress()->toArray() : null
+            'deliveryAddress' => ($this->getDeliveryAddress()) ? $this->getDeliveryAddress()->toArray() : null,
+            'phone' => $this->getPhone(),
         ];
     }
 
@@ -223,5 +229,22 @@ class Customer
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhone()
+    {
+        return $this->phone;
     }
 }
