@@ -38,7 +38,7 @@ trait Util
 
             $data[ucfirst($key)] = $value;
 
-            if (is_string($key) && ctype_lower($key{0})) {
+            if (is_string($key) && ctype_lower($key[0])) {
                 unset($data[$key]);
             }
         }
