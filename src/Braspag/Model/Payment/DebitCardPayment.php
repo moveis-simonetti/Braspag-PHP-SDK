@@ -95,7 +95,7 @@ class DebitCardPayment extends Payment
     }
 
     /**
-     * @return string
+     * @return Card
      */
     public function getDebitCard()
     {
