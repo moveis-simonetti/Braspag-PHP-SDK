@@ -111,7 +111,7 @@ abstract class AbstractModel
         if (!is_array($this->messages) && !($this->messages instanceof \Countable)) {
             throw new \InvalidArgumentException(
                 'Messages cannot be a ' . 
-                    (is_object($this->messages) ? get_class($this->messages) : get_type($this->messages))
+                    (is_object($this->messages) ? get_class($this->messages) : gettype($this->messages))
             );
         }
 

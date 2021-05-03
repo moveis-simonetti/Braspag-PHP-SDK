@@ -182,7 +182,7 @@ class Customer
     }
 
     /**
-     * @return string
+     * @return Address
      */
     public function getAddress()
     {
@@ -207,7 +207,7 @@ class Customer
     }
 
     /**
-     * @return string
+     * @return Address
      */
     public function getDeliveryAddress()
     {
