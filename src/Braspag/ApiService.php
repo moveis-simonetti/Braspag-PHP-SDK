@@ -59,6 +59,11 @@ class ApiService
      */
     function __construct($options = [])
     {
+        if (isset($options['httpClient'])) {
+            $this->http = $options['httpClient'];
+            unset($options['httpClient']);
+        }
+
         $this->config = include __DIR__ . '/../../config/braspag.config.php';
 
         if (is_array($options)) {
