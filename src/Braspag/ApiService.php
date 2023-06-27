@@ -214,7 +214,7 @@ class ApiService
             }
 
             if ($e->getCode() >= 500) {
-                throw new ServerException('Retorno inválido da Braspag', $e->getCode(), $e);
+                throw new ServerException('Erro do Servidor Interno da Braspag, favor entrar em contato com o Suporte!', $e->getCode(), $e);
             }
 
             throw $e;
