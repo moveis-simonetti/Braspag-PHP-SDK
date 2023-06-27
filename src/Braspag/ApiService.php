@@ -24,6 +24,7 @@
 
 namespace Braspag;
 
+use Braspag\Exceptions\ServerException;
 use Braspag\Exceptions\UnauthorizedException;
 use Braspag\Lib\Hydrator;
 use Braspag\Lib\Util;
@@ -210,6 +211,10 @@ class ApiService
         } catch (RequestException $e) {
             if ($e->getCode() == 401) {
                 throw new UnauthorizedException("Falha ao se autenticar na Braspag", $e->getCode(), $e);
+            }
+
+            if ($e->getCode() >= 500) {
+                throw new ServerException('Erro do Servidor Interno da Braspag, favor entrar em contato com o Suporte!', $e->getCode(), $e);
             }
 
             throw $e;
